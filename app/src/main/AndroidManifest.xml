@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mazenet.mzs119.skst">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:name=".Utils.AppController"
+        android:allowBackup="true"
+        android:icon="@drawable/skstlogoico"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/skstlogoico"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".RecepitActivity" />
+        <activity android:name=".CollectionActivity" />
+        <activity android:name=".IndividualReceipt" />
+        <activity android:name=".PrintActivity" />
+        <activity android:name=".DailyCollectionActivity" />
+        <activity android:name=".WeeklyCollectionActivity" />
+        <activity android:name=".MonthlyCollectionActivity" />
+        <activity android:name=".DeviceListActivity" />
+        <activity android:name=".LoanPaymentReceipt" />
+        <activity android:name=".PrintActivityLoans" />
+        <activity android:name=".PrintActivityLoansDatewise" />
+        <activity android:name=".AddCustomer" />
+
+        <receiver
+            android:name=".NetworkChangeReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="BR">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ViewCollection" />
+        <activity android:name=".CashInHandActivity" />
+        <activity android:name=".DateWiseView" />
+        <activity android:name=".PrintActivityDatewise" />
+        <activity android:name=".RgisterActivity" />
+        <activity android:name=".LoanPayments" />
+        <activity android:name=".Addloan" />
+        <activity android:name=".MyTransactions"></activity>
+    </application>
+
+</manifest>

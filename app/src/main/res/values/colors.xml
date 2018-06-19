@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#eb118d</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#ff4081</color>
+    <color name="accent">#ffffff</color>
+
+    <color name="black">#000000</color>
+    <color name="jet">#222222</color>
+    <color name="oil">#333333</color>
+    <color name="monsoon">#777777</color>
+    <color name="jumbo">#888888</color>
+    <color name="aluminum">#999999</color>
+    <color name="base">#AAAAAA</color>
+    <color name="iron">#CCCCCC</color>
+    <color name="white">#FFFFFF</color>
+
+
+    <color name="primary">#F7542B</color>
+    <color name="primary_dark">#c54322</color>
+    <color name="primary_darker">#943219</color>
+    <color name="transparent">#00000000</color>
+
+
+    <color name="semitrnsparent">#60676767</color>
+
+    <color name="button">#0099cc</color>
+    <color name="button1">#3F51B5</color>
+
+    <color name="bg_login">#26ae90</color>
+    <color name="bg_register">#2e3237</color>
+    <color name="bg_main">#428bca</color>
+    <color name="input_login">#222222</color>
+    <color name="input_login_hint">#999999</color>
+    <color name="input_register">#888888</color>
+    <color name="input_register_bg">#Ffffff</color>
+    <color name="input_register_hint">#5e6266</color>
+    <color name="btn_login">#26ae90</color>
+    <color name="btn_login_bg">#eceef1</color>
+    <color name="lbl_name">#333333</color>
+    <color name="btn_logut_bg">#ff6861</color>
+    <color name="red">#FF0000</color>
+
+
+    <color name="holo_blue_light">#58ABD8</color>
+    <color name="holo_blue_dark">#ff0099cc</color>
+    <color name="holo_blue_bright">#ff00ddff</color>
+
+
+
+    <color name="grey">#FF909090</color>
+    <color name="gray">#FFB3B3B3</color>
+    <color name="gray_f">#F0F0F0</color>
+    <color name="gray_e">#E0E0E0</color>
+    <color name="gray_d">#D0D0D0</color>
+    <color name="gray_b">#B0B0B0</color>
+    <color name="gray_a">#A0A0A0</color>
+    <color name="gray_9">#909090</color>
+    <color name="gray_7">#707070</color>
+    <color name="gray_5">#505050</color>
+    <color name="gray_3">#303030</color>
+    <color name="graay">#FFB3B3B3</color>
+    <color name="dark_gray">#FF909090</color>
+    <color name="darker_gray">#FFB0B0B0</color>
+    <color name="off_white">#F0F0F0</color>
+
+    <color name="notificationcolor">#3399FF</color>
+
+
+    <color name="list_item_title">#fff</color>
+    <color name="list_background">#303030</color>
+    <color name="list_background_pressed">#109ff4</color>
+    <color name="list_divider">#272727</color>
+    <color name="counter_text_bg">#626262</color>
+    <color name="counter_text_color">#c5c4c4</color>
+    <color name="cardview_light_background">#000000</color>
+</resources>

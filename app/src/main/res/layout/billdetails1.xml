@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="1dp"
+    android:background="@drawable/layout_bg_select"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:layout_margin="5dp" >
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_weight="2"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/txt_Advance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:text=""
+            android:visibility="gone"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="#1d824f" />
+
+        <TextView
+            android:id="@+id/txt_paid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="#0000FF" />
+
+        <TextView
+            android:id="@+id/txt_pending"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="#FF0000" />
+    </LinearLayout>
+
+</LinearLayout>

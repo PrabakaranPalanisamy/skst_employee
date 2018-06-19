@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/textlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txt_pa_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txt_pa_receiveamnt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txt_pa_Pendingamnt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txt_pa_advanceamnt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium">
+
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/cardview_dark_background"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textlay">
+
+        <Button
+            android:id="@+id/btn_connect_bluetooth_device"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:text="@string/connect_bluetooth_device_btn"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_print"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/iron"
+            android:padding="16dp"
+            android:text="@string/print_btn"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+
+    <EditText android:id="@+id/edt_print_content"
+        android:layout_width="fill_parent"
+        android:layout_height="180dip"
+        android:gravity="top|left"
+        android:hint="@string/print_content_hint_edt"
+        android:visibility="gone"/>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <TableRow>
+
+            <CheckBox
+                android:id="@+id/checkbox_beikuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/checkbox_beikuan" />
+
+            <CheckBox
+                android:id="@+id/checkbox_underline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:checked="false"
+                android:text="@string/checkbox_underline" />
+
+            <CheckBox
+                android:id="@+id/checkbox_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:checked="false"
+                android:text="@string/checkbox_bold" />
+        </TableRow>
+
+        <TableRow>
+
+            <CheckBox
+                android:id="@+id/checkbox_beigao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/checkbox_height" />
+
+            <CheckBox
+                android:id="@+id/checkbox_minifont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:checked="false"
+                android:text="@string/checkbox_minifont" />
+
+            <CheckBox
+                android:id="@+id/checkbox_hightlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:checked="false"
+                android:text="@string/checkbox_hightlight" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btn_print1"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:text="@string/print_btn" />
+
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dip"
+            android:text="@string/test_btn" />
+
+        <Button
+            android:id="@+id/btn_option"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dip"
+            android:text="@string/option_btn" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_bt_inquiry"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:text="@string/bt_inquiry_btn"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_quit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:text="@string/quit_btn"
+        android:visibility="gone" />
+</android.support.constraint.ConstraintLayout>

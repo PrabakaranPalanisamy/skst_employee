@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    tools:context="com.mazenet.mzs119.skst.MenuActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_addcustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semitrnsparent"
+                android:text="Add Customer"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_collection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semitrnsparent"
+                android:text="Collection"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btn_viewCol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semitrnsparent"
+                android:text="View Collection"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btn_dailyCol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semitrnsparent"
+                android:text="Daily Collection"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btn_WeeklyCol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semitrnsparent"
+                android:text="Weekly Collection"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btn_monthlyCol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semitrnsparent"
+                android:text="Monthly Collection"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btn_cashinhand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semitrnsparent"
+                android:text="Cash in hand"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btn_loans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semitrnsparent"
+                android:text="Loan"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semitrnsparent"
+                android:text="logout"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary"
+                android:visibility="visible" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

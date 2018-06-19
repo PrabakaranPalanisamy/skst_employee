@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_serch"
+        android:title="Search"
+        myapp:showAsAction="always" />
+    <item
+        android:id="@+id/menu_qrcode"
+        android:icon="@drawable/qrco12"
+        android:title="QR Code"
+        myapp:showAsAction="always" />
+    <item
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_refersh"
+        android:title="refresh"
+        myapp:showAsAction="always" />
+    <item
+        android:id="@+id/menu_allcustomers"
+        android:title="All Customers"
+        myapp:showAsAction="never" />
+    <item
+        android:id="@+id/menu_mycustomers"
+        android:title="My Customers"
+        myapp:showAsAction="never" />
+    <item
+        android:id="@+id/menu_mycustoutstandings"
+        android:title="My Outstanding Customers"
+        myapp:showAsAction="never" />
+    <item
+        android:id="@+id/menu_otheroutstandcust"
+        android:title="Other Outstanding Customers"
+        myapp:showAsAction="never" />
+</menu>
