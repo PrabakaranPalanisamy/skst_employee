@@ -64,7 +64,8 @@
         <activity android:name=".RgisterActivity" />
         <activity android:name=".LoanPayments" />
         <activity android:name=".Addloan" />
-        <activity android:name=".MyTransactions"></activity>
+        <activity android:name=".MyTransactions" />
+        <activity android:name=".Customer_Info"></activity>
     </application>
 
 </manifest>

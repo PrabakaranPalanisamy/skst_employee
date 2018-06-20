@@ -272,6 +272,18 @@ public class CollectionActivity extends AppCompatActivity {
 
             }
         });
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    Custmodel cmd = customer_listmain.get(position);
+                    Intent i = new Intent(CollectionActivity.this, Customer_Info.class);
+                    i.putExtra("name", cmd.getNAME());
+                    i.putExtra("mobile",cmd.getMOBILE());
+                    i.putExtra("custid",cmd.getCusid());
+                    startActivity(i);
+                return true;
+            }
+        });
 
 
     }
