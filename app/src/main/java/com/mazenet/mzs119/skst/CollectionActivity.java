@@ -535,8 +535,7 @@ public class CollectionActivity extends AppCompatActivity {
                             adapterlist = new CustomAdaptercustomer(CollectionActivity.this, customer_listmain);
                             adapterlist.notifyDataSetChanged();
                             list.setAdapter(adapterlist);
-
-                            // customer_list.clear();
+                            maketotal(customer_listmain);
 
                         } catch (Exception e) {
                             e.printStackTrace();

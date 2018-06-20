@@ -61,13 +61,13 @@ public class Customer_Info extends AppCompatActivity {
 
         if (cd.isConnectedToInternet()) {
             name.setText(str_name);
-            mobile.setText(str_mobile);
+            mobile.setText("Mobile No. "+str_mobile);
             getinfo();
 
         } else {
             Toast.makeText(Customer_Info.this, "No Internet Connection ! ", Toast.LENGTH_SHORT).show();
             name.setText(str_name);
-            mobile.setText(str_mobile);
+            mobile.setText("Mobile No. "+str_mobile);
         }
     }
 
