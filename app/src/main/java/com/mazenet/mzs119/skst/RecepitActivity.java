@@ -864,7 +864,7 @@ public class RecepitActivity extends AppCompatActivity {
                             sched.setPaymentType(jObj.getString("Payment_Type"));
                             sched.setCompleted_auction(jObj.getString("Completed_auction"));
                             sched.setPaid_details(jObj.getString("Paid_Details"));
-                              System.out.println(jObj.getString("Paid_Details"));
+                            System.out.println(jObj.getString("Paid_Details"));
                             sched.setPayamount("0");
                             enroll_list.add(sched);
                         }
