@@ -34,6 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.mazenet.mzs119.skst.Adapter.CustomAdaptercustomer;
@@ -47,7 +48,6 @@ import com.mazenet.mzs119.skst.Model.FeedbackModel;
 import com.mazenet.mzs119.skst.Utils.AppController;
 import com.mazenet.mzs119.skst.Utils.Config;
 import com.mazenet.mzs119.skst.Utils.ConnectionDetector;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -90,11 +90,11 @@ public class CollectionActivity extends AppCompatActivity {
     int tot1 = 0;
     TextView txt_total;
     Locale curLocale = new Locale("en", "IN");
+    ShimmerFrameLayout container;
     // ArrayList<String> ledgername = new ArrayList<String>();
     //  private ArrayList<String> name11 = new ArrayList<String>();
 
     //Getting the scan results
-
 
 
     @Override
@@ -150,6 +150,7 @@ public class CollectionActivity extends AppCompatActivity {
         txt_total = (TextView) findViewById(R.id.txt_ac_total);
         list = (ListView) findViewById(R.id.list_trading1);
         edt_search = (EditText) findViewById(R.id.edt_search);
+        container = (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container1);
 
         dbrecepit = new Databaserecepit(this);
         //===================================================================
@@ -162,19 +163,43 @@ public class CollectionActivity extends AppCompatActivity {
             int wwww = newCalendar.get(Calendar.WEEK_OF_YEAR);
 
             if (ddd == pref.getInt("dailycheckdaymain", 0) && wwww == pref.getInt("dailycheckmonthmain", 0) && dbcust.getContactsCount() != 0) {
+
                 reterivelocal();
+
 
             } else {
 
-                editor.putInt("dailycheckdaymain",
-                        newCalendar.get(Calendar.DAY_OF_MONTH));
-                editor.putInt("dailycheckmonthmain",
-                        newCalendar.get(Calendar.WEEK_OF_YEAR));
+
                 editor.putString("companymain",
                         pref.getString("company", null));
 
-                editor.commit();
-                reteriveall();
+
+                if (cd.isConnectedToInternet()) {
+                    editor.putInt("dailycheckdaymain",
+                            newCalendar.get(Calendar.DAY_OF_MONTH));
+                    editor.putInt("dailycheckmonthmain",
+                            newCalendar.get(Calendar.WEEK_OF_YEAR));
+                    editor.commit();
+                    reteriveall();
+                } else {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                            CollectionActivity.this);
+                    alertDialog.setTitle("Information");
+                    alertDialog
+                            .setMessage("You must sync first time");
+
+                    alertDialog.setPositiveButton("ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    dialog.cancel();
+                                    onBackPressed();
+
+                                }
+                            });
+                    alertDialog.show();
+                }
+
             }
 
         } catch (Exception e) {
@@ -220,7 +245,6 @@ public class CollectionActivity extends AppCompatActivity {
                     customer_listmain.clear();
 
                     customer_listmain.addAll(customer_list);
-
 
                     if (customer_listmain.size() > 0) {
                         list.setVisibility(View.VISIBLE);
@@ -275,12 +299,12 @@ public class CollectionActivity extends AppCompatActivity {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    Custmodel cmd = customer_listmain.get(position);
-                    Intent i = new Intent(CollectionActivity.this, Customer_Info.class);
-                    i.putExtra("name", cmd.getNAME());
-                    i.putExtra("mobile",cmd.getMOBILE());
-                    i.putExtra("custid",cmd.getCusid());
-                    startActivity(i);
+                Custmodel cmd = customer_listmain.get(position);
+                Intent i = new Intent(CollectionActivity.this, Customer_Info.class);
+                i.putExtra("name", cmd.getNAME());
+                i.putExtra("mobile", cmd.getMOBILE());
+                i.putExtra("custid", cmd.getCusid());
+                startActivity(i);
                 return true;
             }
         });
@@ -339,7 +363,7 @@ public class CollectionActivity extends AppCompatActivity {
 
     private void reterivelocalreceipts() {
 
-        showDialog();
+        container.startShimmerAnimation();
         enroll_list_local.clear();
         StringRequest localreq = new StringRequest(Request.Method.POST,
                 url3, new Response.Listener<String>() {
@@ -380,6 +404,7 @@ public class CollectionActivity extends AppCompatActivity {
                             enroll_list_local.add(sched);
                         }
                     } catch (JSONException e) {
+                        container.stopShimmerAnimation();
                         e.printStackTrace();
                     }
 
@@ -391,10 +416,10 @@ public class CollectionActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         try {
-                            hidePDialog();
+
                             Toast.makeText(CollectionActivity.this, "database loaded", Toast.LENGTH_SHORT).show();
                             dbrecepit.addallreceipt(enroll_list_local);
-
+                            container.stopShimmerAnimation();
                             // adapterlist = new CustomAdapterenrollment(RecepitActivity.this, enroll_list_local);
                             //adapterlist.notifyDataSetChanged();
                             //ListViewHeight.setListViewHeightBasedOnChildren(lst_re_enroll);
@@ -472,14 +497,13 @@ public class CollectionActivity extends AppCompatActivity {
     // ========================================================================
     public void reteriveall() {
 
-        showDialog();
+        container.startShimmerAnimation();
 
         StringRequest movieReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Collection Activity", response.toString());
-                hidePDialog();
 
 
                 try {
@@ -514,6 +538,7 @@ public class CollectionActivity extends AppCompatActivity {
 
                         }
                     } catch (JSONException e) {
+                        container.stopShimmerAnimation();
                         e.printStackTrace();
                     }
 
@@ -529,12 +554,12 @@ public class CollectionActivity extends AppCompatActivity {
                         try {
 
                             dbcust.addcustomer(customer_list);
-
                             customer_listmain.clear();
                             customer_listmain.addAll(customer_list);
                             adapterlist = new CustomAdaptercustomer(CollectionActivity.this, customer_listmain);
                             adapterlist.notifyDataSetChanged();
                             list.setAdapter(adapterlist);
+                            container.stopShimmerAnimation();
                             maketotal(customer_listmain);
 
                         } catch (Exception e) {
@@ -543,6 +568,7 @@ public class CollectionActivity extends AppCompatActivity {
 
 
                     } else {
+                        container.stopShimmerAnimation();
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                                 CollectionActivity.this);
                         alertDialog.setTitle("Information");
@@ -581,10 +607,11 @@ public class CollectionActivity extends AppCompatActivity {
         {
             @Override
             public void onErrorResponse(VolleyError error) {
+                container.stopShimmerAnimation();
                 VolleyLog.d("Activity", "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
-                hidePDialog();
+                container.stopShimmerAnimation();
 
             }
         })
@@ -624,7 +651,8 @@ public class CollectionActivity extends AppCompatActivity {
     }
 
     private void maketotal(ArrayList<Custmodel> customer_listmain) {
-        String to1="";tot1=0;
+        String to1 = "";
+        tot1 = 0;
         for (int i = 0; i < customer_listmain.size(); i++) {
             Custmodel cm = customer_listmain.get(i);
             String to = cm.getTotalenrlpending();
@@ -639,11 +667,11 @@ public class CollectionActivity extends AppCompatActivity {
         try {
             Double d = Double.parseDouble(String.valueOf(tot1));
             String moneyString5 = NumberFormat.getNumberInstance(curLocale).format(d);
-             to1 = moneyString5;
+            to1 = moneyString5;
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        txt_total.setText("Rs. "+to1);
+        txt_total.setText("Rs. " + to1);
 
 
     }
@@ -702,14 +730,13 @@ public class CollectionActivity extends AppCompatActivity {
     // ========================================================================
     public void reterivefeedback() {
 
-        showDialog();
-
+        container.startShimmerAnimation();
         StringRequest movieReq = new StringRequest(Request.Method.POST,
                 urlfeed, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Collection Activity", response.toString());
-                hidePDialog();
+                container.stopShimmerAnimation();
 
 
                 try {
@@ -734,6 +761,7 @@ public class CollectionActivity extends AppCompatActivity {
 
                         }
                     } catch (JSONException e) {
+                        container.stopShimmerAnimation();
                         e.printStackTrace();
                     }
 
@@ -752,7 +780,7 @@ public class CollectionActivity extends AppCompatActivity {
 
                             feedlistmain.clear();
                             feedlistmain.addAll(feedlist);
-
+                            container.stopShimmerAnimation();
                             // customer_list.clear();
 
                         } catch (Exception e) {
@@ -761,6 +789,7 @@ public class CollectionActivity extends AppCompatActivity {
 
 
                     } else {
+                        container.stopShimmerAnimation();
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                                 CollectionActivity.this);
                         alertDialog.setTitle("Information");
@@ -789,6 +818,7 @@ public class CollectionActivity extends AppCompatActivity {
 
 
                 } catch (JSONException e) {
+                    container.stopShimmerAnimation();
                     e.printStackTrace();
                 }
 
@@ -799,10 +829,11 @@ public class CollectionActivity extends AppCompatActivity {
         {
             @Override
             public void onErrorResponse(VolleyError error) {
+                container.stopShimmerAnimation();
                 VolleyLog.d("Activity", "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
-                hidePDialog();
+                container.stopShimmerAnimation();
 
             }
         })
@@ -827,20 +858,6 @@ public class CollectionActivity extends AppCompatActivity {
 
     // ===========================================================================
 
-
-    private void hidePDialog() {
-        if (pDialog.isShowing()) {
-            pDialog.dismiss();
-
-        }
-    }
-
-    private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-        pDialog.setContentView(R.layout.my_progress);
-
-    }
 
     // ===========================================================================
 
@@ -1115,14 +1132,14 @@ public class CollectionActivity extends AppCompatActivity {
     public void sendfeedback(final String cusid, final String feedbackcus, final String nextdate) {
 
 
-        showDialog();
+//        container.startShimmerAnimation();
 
         StringRequest movieReq = new StringRequest(Request.Method.POST,
                 url1, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Collection Activity", response.toString());
-                hidePDialog();
+//                container.stopShimmerAnimation();
 
 
                 try {
@@ -1132,7 +1149,7 @@ public class CollectionActivity extends AppCompatActivity {
 
 
                     if (Success.equals("0")) {
-                        hidePDialog();
+//                        container.stopShimmerAnimation();
                         Toast.makeText(CollectionActivity.this, Details, Toast.LENGTH_LONG).show();
                         //  listclick(cusid);
                     } else {
@@ -1157,7 +1174,7 @@ public class CollectionActivity extends AppCompatActivity {
                 VolleyLog.d("Activity", "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
-                hidePDialog();
+//                container.stopShimmerAnimation();
 
             }
         })

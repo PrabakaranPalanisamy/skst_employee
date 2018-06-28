@@ -5,30 +5,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.StringRequest;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.mazenet.mzs119.skst.Utils.Config;
 import com.mazenet.mzs119.skst.Utils.ConnectionDetector;
-import com.mazenet.mzs119.skst.Utils.AppController;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -38,7 +24,7 @@ public class SplashScreen extends AppCompatActivity {
     private String android_id;
     int MY_PERMISSION_ACCESS_COURSE_LOCATION = 1;
     ConnectionDetector cd;
-
+ShimmerFrameLayout container;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +32,8 @@ public class SplashScreen extends AppCompatActivity {
 
         android_id = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-
+        container = (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container1);
+        container.startShimmerAnimation();
         cd = new ConnectionDetector(this);
         pref = getApplicationContext().getSharedPreferences(Config.preff,
                 MODE_PRIVATE);

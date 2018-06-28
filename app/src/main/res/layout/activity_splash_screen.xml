@@ -4,11 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.mazenet.mzs119.skst.SplashScreen">
 
-    <ImageView
+    <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/shimmer_view_container1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/splash" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/skstsplash"
+            android:contentDescription="shimmerimage"/>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 </android.support.constraint.ConstraintLayout>

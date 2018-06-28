@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.mazenet.mzs119.skst.CollectionActivity">
+
     <EditText
         android:id="@+id/edt_search"
         android:layout_width="match_parent"
@@ -17,9 +18,9 @@
 
     <LinearLayout
         android:id="@+id/lay_billhead"
-        android:layout_below="@+id/edt_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_search"
         android:layout_margin="5dp">
 
         <TextView
@@ -31,6 +32,7 @@
             android:text="Name"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#000000" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -50,46 +52,53 @@
             android:textColor="#000000" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list_trading1"
-        android:layout_below="@+id/lay_billhead"
+    <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/shimmer_view_container1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="35dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lay_billhead">
+
+        <ListView
+            android:id="@+id/list_trading1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="35dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10.0sp" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:layout_alignParentBottom="true"
         android:background="@color/colorAccent"
-        android:weightSum="2"
+        android:orientation="horizontal"
         android:padding="8sp"
-        android:orientation="horizontal">
+        android:weightSum="2">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Pending"
+            android:layout_marginLeft="8sp"
             android:layout_weight="1"
+            android:text="Total Pending"
             android:textColor="#ffffff"
             android:textSize="16sp"
-            android:layout_marginLeft="8sp"
             android:typeface="serif" />
 
         <TextView
             android:id="@+id/txt_ac_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
+            android:layout_marginRight="8sp"
             android:layout_weight="1"
             android:gravity="right"
-            android:layout_marginRight="8sp"
-            android:textSize="16sp"
             android:text=""
-            android:typeface="serif"/>
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:typeface="serif" />
     </LinearLayout>
 </RelativeLayout>

@@ -33,4 +33,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('src/main/lib/RT_Android_Bluetooth_SDK_20150204.jar')
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 }
