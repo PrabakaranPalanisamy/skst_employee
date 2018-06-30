@@ -364,6 +364,7 @@ public class CollectionActivity extends AppCompatActivity {
     private void reterivelocalreceipts() {
 
         container.startShimmerAnimation();
+        showDialog();
         enroll_list_local.clear();
         StringRequest localreq = new StringRequest(Request.Method.POST,
                 url3, new Response.Listener<String>() {
@@ -406,6 +407,7 @@ public class CollectionActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         container.stopShimmerAnimation();
                         e.printStackTrace();
+                        hidePDialog();
                     }
 
                     if (enroll_list_local.size() > 0) {
@@ -420,6 +422,7 @@ public class CollectionActivity extends AppCompatActivity {
                             Toast.makeText(CollectionActivity.this, "database loaded", Toast.LENGTH_SHORT).show();
                             dbrecepit.addallreceipt(enroll_list_local);
                             container.stopShimmerAnimation();
+                            hidePDialog();
                             // adapterlist = new CustomAdapterenrollment(RecepitActivity.this, enroll_list_local);
                             //adapterlist.notifyDataSetChanged();
                             //ListViewHeight.setListViewHeightBasedOnChildren(lst_re_enroll);
@@ -430,6 +433,7 @@ public class CollectionActivity extends AppCompatActivity {
                         }
 
                     } else {
+                        hidePDialog();
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                                 CollectionActivity.this);
                         alertDialog.setTitle("Information");
@@ -459,6 +463,7 @@ public class CollectionActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    hidePDialog();
                 }
 
 
@@ -472,7 +477,7 @@ public class CollectionActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
 
-
+                hidePDialog();
             }
         })
 
@@ -498,7 +503,7 @@ public class CollectionActivity extends AppCompatActivity {
     public void reteriveall() {
 
         container.startShimmerAnimation();
-
+        showDialog();
         StringRequest movieReq = new StringRequest(Request.Method.POST,
                 url, new Response.Listener<String>() {
             @Override
@@ -539,6 +544,7 @@ public class CollectionActivity extends AppCompatActivity {
                         }
                     } catch (JSONException e) {
                         container.stopShimmerAnimation();
+                        hidePDialog();
                         e.printStackTrace();
                     }
 
@@ -561,9 +567,11 @@ public class CollectionActivity extends AppCompatActivity {
                             list.setAdapter(adapterlist);
                             container.stopShimmerAnimation();
                             maketotal(customer_listmain);
+                            hidePDialog();
 
                         } catch (Exception e) {
                             e.printStackTrace();
+                            hidePDialog();
                         }
 
 
@@ -597,6 +605,7 @@ public class CollectionActivity extends AppCompatActivity {
 
 
                 } catch (JSONException e) {
+                    hidePDialog();
                     e.printStackTrace();
                 }
 
@@ -612,7 +621,7 @@ public class CollectionActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
                 container.stopShimmerAnimation();
-
+                hidePDialog();
             }
         })
 
@@ -731,12 +740,12 @@ public class CollectionActivity extends AppCompatActivity {
     public void reterivefeedback() {
 
         container.startShimmerAnimation();
+        showDialog();
         StringRequest movieReq = new StringRequest(Request.Method.POST,
                 urlfeed, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Collection Activity", response.toString());
-                container.stopShimmerAnimation();
 
 
                 try {
@@ -762,6 +771,7 @@ public class CollectionActivity extends AppCompatActivity {
                         }
                     } catch (JSONException e) {
                         container.stopShimmerAnimation();
+                        hidePDialog();
                         e.printStackTrace();
                     }
 
@@ -781,15 +791,18 @@ public class CollectionActivity extends AppCompatActivity {
                             feedlistmain.clear();
                             feedlistmain.addAll(feedlist);
                             container.stopShimmerAnimation();
+                            hidePDialog();
                             // customer_list.clear();
 
                         } catch (Exception e) {
+                            hidePDialog();
                             e.printStackTrace();
                         }
 
 
                     } else {
                         container.stopShimmerAnimation();
+                        hidePDialog();
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                                 CollectionActivity.this);
                         alertDialog.setTitle("Information");
@@ -820,6 +833,7 @@ public class CollectionActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     container.stopShimmerAnimation();
                     e.printStackTrace();
+                    hidePDialog();
                 }
 
 
@@ -834,7 +848,7 @@ public class CollectionActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
                 container.stopShimmerAnimation();
-
+                hidePDialog();
             }
         })
 
@@ -1203,7 +1217,19 @@ public class CollectionActivity extends AppCompatActivity {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(movieReq);
     }
+    private void hidePDialog() {
+        if (pDialog.isShowing()) {
+            pDialog.dismiss();
 
+        }
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+        pDialog.setContentView(R.layout.my_progress);
+
+    }
 
 }
 

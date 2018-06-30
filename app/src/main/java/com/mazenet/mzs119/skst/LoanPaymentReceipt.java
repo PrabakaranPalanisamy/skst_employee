@@ -87,7 +87,7 @@ public class LoanPaymentReceipt extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<String>();
     String paytype = "Cash";
     LinearLayout lay_re_che, lay_re_dd, lay_re_rtgs;
-    EditText edt_re_cheno, edt_re_chebank, edt_re_chebranch, edt_re_ddno, edt_re_ddbank, edt_re_ddbranch, edt_debitto;
+    EditText edt_re_cheno, edt_re_chebank, edt_re_chebranch, edt_re_ddno, edt_re_ddbank, edt_re_ddbranch, edt_debitto, edt_re_interestamount;
     DatePickerDialog fromDatePickerDialog;
     SimpleDateFormat df;
     String str_chedate = "", str_dddate = "", str_rtgsdate = "", str_cheno = "", str_chebank = "", str_chebranch = "", receiptno = "", str_remark = "", str_tranno = "", brnid = "", pending = "", str_debit = "", paidamnt = "", reference = "";
@@ -97,10 +97,10 @@ public class LoanPaymentReceipt extends AppCompatActivity {
     SimpleDateFormat dateFormat;
     String date = "";
     String amount = "0";
-    TextView txt_cusname, txt_pending;
+    TextView txt_cusname, txt_pending, irl_interesttobe;
     Locale curLocale = new Locale("en", "IN");
     Uri fileUri = null;
-    String imgfile64 = "", isimage = "false";
+    String imgfile64 = "", isimage = "false", str_interest = "";
     public static final int MEDIA_TYPE_IMAGE = 1;
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final String TAG = IndividualReceipt.class.getSimpleName();
@@ -256,11 +256,13 @@ public class LoanPaymentReceipt extends AppCompatActivity {
         txt_cusname = (TextView) findViewById(R.id.irl_name);
         txt_pending = (TextView) findViewById(R.id.irl_pending);
         edt_re_amount = (EditText) findViewById(R.id.edt_amount_indiv);
+        edt_re_interestamount = (EditText) findViewById(R.id.edt_interestamount_indiv);
         edt_re_remark = (EditText) findViewById(R.id.edt_re_remark_indiv);
         edt_debitto = (EditText) findViewById(R.id.edt_Debit_to);
         edt_re_cheno = (EditText) findViewById(R.id.edt_re_cheno_indiv);
         edt_re_chebank = (EditText) findViewById(R.id.edt_re_chebank_indiv);
         edt_re_chebranch = (EditText) findViewById(R.id.edt_re_chebranch_indiv);
+        irl_interesttobe = (TextView) findViewById(R.id.irl_interesttobe);
 
 
         edt_re_ddno = (EditText) findViewById(R.id.edt_re_ddno_indiv);
@@ -302,7 +304,7 @@ public class LoanPaymentReceipt extends AppCompatActivity {
         list.add("D.D");
         list.add("RTGS/NEFT");
         list.add("Card");
-
+        get_tobecollect();
         String advance = String.valueOf(pending);
         try {
             if (advance.contains("-")) {
@@ -1140,6 +1142,7 @@ public class LoanPaymentReceipt extends AppCompatActivity {
 
                 String amount = edt_re_amount.getText().toString();
                 str_debit = edt_debitto.getText().toString();
+                str_interest = edt_re_interestamount.getText().toString();
                 if (amount.equalsIgnoreCase("")) {
                     amount = "0";
                 }
@@ -1176,9 +1179,12 @@ public class LoanPaymentReceipt extends AppCompatActivity {
                         } else if (str_debit.isEmpty()) {
                             edt_debitto.setError("Enter Debit Account");
                             return;
+                        } else if (str_interest.isEmpty()) {
+                            edt_re_interestamount.setError("Enter Interest Account");
+                            return;
                         } else {
                             if (cd.isConnectedToInternet()) {
-                                postentryloan(amount, "cheque", str_debit, str_cheno, str_chebank, str_chebranch, str_chedate, "", "");
+                                postentryloan(amount, "cheque", str_debit, str_cheno, str_chebank, str_chebranch, str_chedate, "", "", str_interest);
 
                             } else {
                                 dbrecepit.addtemploanreceipt(tblid, brnid, amount, "cheque", str_cheno, str_chedate, str_chebank, str_chebranch, "", "", str_debit);
@@ -1219,9 +1225,12 @@ public class LoanPaymentReceipt extends AppCompatActivity {
                             edt_debitto.setError("Enter Debit Account");
                             btn_submit.setVisibility(View.VISIBLE);
                             return;
+                        } else if (str_interest.isEmpty()) {
+                            edt_re_interestamount.setError("Enter Interest Account");
+                            return;
                         } else {
                             if ((cd.isConnectedToInternet())) {
-                                postentryloan(amount, "dd", str_debit, str_cheno, str_chebank, str_chebranch, str_chedate, "", "");
+                                postentryloan(amount, "dd", str_debit, str_cheno, str_chebank, str_chebranch, str_chedate, "", "", str_interest);
 
                             } else {
                                 dbrecepit.addtemploanreceipt(tblid, brnid, amount, "dd", str_cheno, str_chedate, str_chebank, str_chebranch, "", "", str_debit);
@@ -1242,9 +1251,12 @@ public class LoanPaymentReceipt extends AppCompatActivity {
                             edt_debitto.setError("Enter Debit Account");
                             btn_submit.setVisibility(View.VISIBLE);
                             return;
+                        } else if (str_interest.isEmpty()) {
+                            edt_re_interestamount.setError("Enter Interest Account");
+                            return;
                         } else {
                             if (cd.isConnectedToInternet()) {
-                                postentryloan(amount, "rtgs", str_debit, "", "", "", "", str_tranno, str_rtgsdate);
+                                postentryloan(amount, "rtgs", str_debit, "", "", "", "", str_tranno, str_rtgsdate, str_interest);
 
                             } else {
                                 dbrecepit.addtemploanreceipt(tblid, brnid, amount, "rtgs", "", "", "", "", str_tranno, str_rtgsdate, str_debit);
@@ -1264,9 +1276,12 @@ public class LoanPaymentReceipt extends AppCompatActivity {
                             edt_debitto.setError("Enter Debit Account");
                             btn_submit.setVisibility(View.VISIBLE);
                             return;
+                        } else if (str_interest.isEmpty()) {
+                            edt_re_interestamount.setError("Enter Interest Account");
+                            return;
                         } else {
                             if (cd.isConnectedToInternet()) {
-                                postentryloan(amount, "card", str_debit, "", "", "", "", str_tranno, str_rtgsdate);
+                                postentryloan(amount, "card", str_debit, "", "", "", "", str_tranno, str_rtgsdate, str_interest);
 
                             } else {
                                 dbrecepit.addtemploanreceipt(tblid, brnid, amount, "card", "", "", "", "", str_tranno, str_rtgsdate, str_debit);
@@ -1277,7 +1292,10 @@ public class LoanPaymentReceipt extends AppCompatActivity {
                     } else {
 
                         if (cd.isConnectedToInternet()) {
-                            postentryloan(amount, "cash", "CASH ON HAND", "", "", "", "", "", "");
+                            postentryloan(amount, "cash", "CASH ON HAND", "", "", "", "", "", "", str_interest);
+                        } else if (str_interest.isEmpty()) {
+                            edt_re_interestamount.setError("Enter Interest Account");
+                            return;
                         } else {
                             dbrecepit.addtemploanreceipt(tblid, brnid, amount, "cash", "", "", "", "", "", "", "CASH ON HAND");
                             dbrecepit.addVIEWloanreceipt(cusname, amount, date, reference);
@@ -1305,7 +1323,7 @@ public class LoanPaymentReceipt extends AppCompatActivity {
 //==============================================================================================================
     }
 
-    private void postentryloan(final String amount, final String paytype, final String str_debit, final String str_cheno, final String str_chebank, final String str_chebranch, final String str_chedate, final String trn_no, final String trn_date) {
+    private void postentryloan(final String amount, final String paytype, final String str_debit, final String str_cheno, final String str_chebank, final String str_chebranch, final String str_chedate, final String trn_no, final String trn_date, final String interest) {
 
         showDialog();
         StringRequest movieReq = new StringRequest(Request.Method.POST,
@@ -1373,6 +1391,7 @@ public class LoanPaymentReceipt extends AppCompatActivity {
                 params.put("trn_no", trn_no);
                 params.put("trn_date", trn_date);
                 params.put("d_bank", str_debit);
+                params.put("interest", interest);
                 if (isimage.equalsIgnoreCase("true")) {
                     params.put("isimage", isimage);
                     params.put("image", imgfile64);
@@ -1559,5 +1578,62 @@ public class LoanPaymentReceipt extends AppCompatActivity {
         editor.putString("pending", "0");
         editor.putString("paidamnt", "0");
         editor.commit();
+    }
+
+    public void get_tobecollect() {
+        showDialog();
+
+        StringRequest movieReq = new StringRequest(Request.Method.POST,
+                Config.get_tobe_collect, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+                hidePDialog();
+                String status = "", amnt = "";
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    status = jObj.getString("status");
+                    amnt = jObj.getString("amnt");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (status.equals("1")) {
+                    hidePDialog();
+                    irl_interesttobe.setText("Interest to be collected : Rs. " + amnt);
+
+                } else {
+                    irl_interesttobe.setText("Interest to be collected : Rs. 0");
+                }
+            }
+
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                hidePDialog();
+
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("name", name);
+                params.put("loanid", tblid);
+                System.out.println("loan " + tblid);
+
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(movieReq);
+
+
     }
 }

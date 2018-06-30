@@ -27,6 +27,7 @@
                 android:textColor="@color/list_background_pressed"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/irl_pending"
                 android:layout_width="wrap_content"
@@ -34,6 +35,15 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:textColor="@color/red"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/irl_interesttobe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textColor="#34A853"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -66,6 +76,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Amount"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/black" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+
+                <EditText
+                    android:id="@+id/edt_interestamount_indiv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Interest Amount"
                     android:inputType="number"
                     android:singleLine="true"
                     android:text=""
@@ -137,12 +171,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cheque Date" />
+
                 <Button
                     android:id="@+id/btn_che_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAllCaps="false"
-                    android:text="Upload Cheque photo" />
+                    android:text="Upload Cheque photo"
+                    android:textAllCaps="false" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

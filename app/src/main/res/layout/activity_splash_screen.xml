@@ -15,8 +15,10 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="shimmerimage"
             android:scaleType="fitCenter"
-            android:src="@drawable/skstsplash"
-            android:contentDescription="shimmerimage"/>
+            android:src="@drawable/skstsplash" />
     </com.facebook.shimmer.ShimmerFrameLayout>
+
+
 </android.support.constraint.ConstraintLayout>

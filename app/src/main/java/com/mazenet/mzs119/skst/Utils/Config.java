@@ -6,7 +6,7 @@ package com.mazenet.mzs119.skst.Utils;
 
 public class Config {
 //    static String loginurl = "http://mazenettech.net/SKST_CHIT_FUNDS/Mobile/";
-   static String loginurl = "http://skstchitfunds.com/ERP/Mobile/";
+   static String loginurl = "http://skstchitfunds.com/Test/ERP/Mobile/";
     public static String preff = "dncchits";
 
     public static String login = loginurl + "registerit.php?";
@@ -39,6 +39,7 @@ public class Config {
     public static String reteriveindienroll = loginurl + "retrieveindividualenroll.php?";
     public static String getcustinfo = loginurl + "getcustinfo.php?";
     public static String uploadpics = loginurl + "uploadpics.php?";
+    public static String get_tobe_collect = loginurl + "get_tobe_collected.php?";
     public static boolean isconnected;
 // ============================================================================
 
