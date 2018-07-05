@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg1"
+    android:background="@drawable/plainbg"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingLeft="20dp"
@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/semitrnsparent"
+                android:background="@drawable/mybuttonbottombar1"
                 android:text="Collection"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary"
@@ -39,8 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/semitrnsparent"
-                android:text="View Collection"
+                android:background="@drawable/mybuttonbottombar1"                android:text="View Collection"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary"
                 android:visibility="visible" />
@@ -50,8 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/semitrnsparent"
-                android:text="Daily Collection"
+                android:background="@drawable/mybuttonbottombar1"                android:text="Daily Collection"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary"
                 android:visibility="visible" />
@@ -61,8 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/semitrnsparent"
-                android:text="Weekly Collection"
+                android:background="@drawable/mybuttonbottombar1"                android:text="Weekly Collection"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary"
                 android:visibility="visible" />
@@ -72,8 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/semitrnsparent"
-                android:text="Monthly Collection"
+                android:background="@drawable/mybuttonbottombar1"                android:text="Monthly Collection"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary"
                 android:visibility="visible" />
@@ -83,8 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/semitrnsparent"
-                android:text="Cash in hand"
+                android:background="@drawable/mybuttonbottombar1"                android:text="Cash in hand"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary"
                 android:visibility="visible" />
@@ -94,8 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/semitrnsparent"
-                android:text="Loan"
+                android:background="@drawable/mybuttonbottombar1"                android:text="Loan"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary"
                 android:visibility="visible" />
@@ -104,8 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/semitrnsparent"
-                android:text="Add Customer"
+                android:background="@drawable/mybuttonbottombar1"                android:text="Add Customer"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary" />
             <Button
@@ -113,8 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/semitrnsparent"
-                android:text="logout"
+                android:background="@drawable/mybuttonbottombar1"                android:text="logout"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary"
                 android:visibility="visible" />

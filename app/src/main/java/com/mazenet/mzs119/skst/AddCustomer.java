@@ -521,7 +521,25 @@ public class AddCustomer extends AppCompatActivity {
                 }
             }
         });
-        //---------------------------------------Check box-----------------------------------------------------------------------------------
+        edt_alternateMobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (edt_alternateMobile.getText().toString().length() < 10 && editable.length() > 0) {
+                    edt_alternateMobile.setError("Enter 10 Digit Number");
+                }
+            }
+        });
+        //---------------------------------------Check box-------------------------------------------------------
         cb_sameaddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="4dp"
-
+android:background="@drawable/layout_bg1"
     tools:context="com.mazenet.mzs119.skst.AddCustomer">
 
     <LinearLayout
@@ -160,7 +160,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="Mobile Number"
-                    android:inputType="number"
+                    android:inputType="phone"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -177,6 +177,7 @@
                     android:id="@+id/edt_ac_altermobile"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="12"
                     android:hint="Alternative Mobile Number"
                     android:inputType="phone"
                     android:singleLine="true" />
