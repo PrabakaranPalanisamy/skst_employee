@@ -202,7 +202,18 @@ public class WeeklyCollectionActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Custmodel cmd = customer_listmain.get(position);
+                Intent i = new Intent(WeeklyCollectionActivity.this, Customer_Info.class);
+                i.putExtra("name", cmd.getNAME());
+                i.putExtra("mobile", cmd.getMOBILE());
+                i.putExtra("custid", cmd.getCusid());
+                startActivity(i);
+                return true;
+            }
+        });
         edt_search.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -608,11 +619,12 @@ public class WeeklyCollectionActivity extends AppCompatActivity {
         maketotal(customer_listmain);
 
     }
+
     public void reterivelocalmycust() {
         System.out.println("all reterivelocalmycust ");
         customer_list.clear();
         customer_listmain.clear();
-        customer_list = dbcust.getAllWEEKLYmycontacts(pref.getString("userid",""));
+        customer_list = dbcust.getAllWEEKLYmycontacts(pref.getString("userid", ""));
         customer_listmain.addAll(customer_list);
 
         adapterlist = new CustomAdaptercustomer(WeeklyCollectionActivity.this, customer_listmain);
@@ -621,11 +633,12 @@ public class WeeklyCollectionActivity extends AppCompatActivity {
         maketotal(customer_listmain);
 
     }
+
     public void reterivelocalmycustoutstandings() {
         System.out.println("all reterivelocalmycustoutstandings ");
         customer_list.clear();
         customer_listmain.clear();
-        customer_list = dbcust.getWEEKLYmycontactswithoutsatndings(pref.getString("userid",""));
+        customer_list = dbcust.getWEEKLYmycontactswithoutsatndings(pref.getString("userid", ""));
         customer_listmain.addAll(customer_list);
 
         adapterlist = new CustomAdaptercustomer(WeeklyCollectionActivity.this, customer_listmain);
@@ -634,11 +647,12 @@ public class WeeklyCollectionActivity extends AppCompatActivity {
         maketotal(customer_listmain);
 
     }
+
     public void reterivelocalothercustoutstandings() {
         System.out.println("all reterivelocalothercustoutstandings ");
         customer_list.clear();
         customer_listmain.clear();
-        customer_list = dbcust.getWEEKLYallcontactswithoutsatndings(pref.getString("userid",""));
+        customer_list = dbcust.getWEEKLYallcontactswithoutsatndings(pref.getString("userid", ""));
         customer_listmain.addAll(customer_list);
 
         adapterlist = new CustomAdaptercustomer(WeeklyCollectionActivity.this, customer_listmain);
@@ -647,8 +661,10 @@ public class WeeklyCollectionActivity extends AppCompatActivity {
         maketotal(customer_listmain);
 
     }
+
     private void maketotal(ArrayList<Custmodel> customer_listmain) {
-        String to1="";tot1=0;
+        String to1 = "";
+        tot1 = 0;
         for (int i = 0; i < customer_listmain.size(); i++) {
             Custmodel cm = customer_listmain.get(i);
             String to = cm.getTotalenrlpending();
@@ -667,7 +683,7 @@ public class WeeklyCollectionActivity extends AppCompatActivity {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        txt_total.setText("Rs. "+to1);
+        txt_total.setText("Rs. " + to1);
 
 
     }
@@ -1009,7 +1025,7 @@ public class WeeklyCollectionActivity extends AppCompatActivity {
                 Intent irt = new Intent(WeeklyCollectionActivity.this, RecepitActivity.class);
                 irt.putExtra("cusid", cusid);
                 irt.putExtra("cusname", cusname);
-                irt.putExtra("type","Weekly");
+                irt.putExtra("type", "Weekly");
                 startActivity(irt);
                 finish();
             }

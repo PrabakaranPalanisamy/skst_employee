@@ -178,7 +178,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="Alternative Mobile Number"
-                    android:inputType="number"
+                    android:inputType="phone"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
@@ -649,6 +649,30 @@
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/edt_ac_collectagent"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:hint="Collection Agent"
+                    android:inputType="text"
+                    android:singleLine="true"/>
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+        <ListView
+            android:id="@+id/list_ac_collectagent"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:divider="@android:color/transparent"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

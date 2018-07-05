@@ -202,7 +202,18 @@ public class MonthlyCollectionActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Custmodel cmd = customer_listmain.get(position);
+                Intent i = new Intent(MonthlyCollectionActivity.this, Customer_Info.class);
+                i.putExtra("name", cmd.getNAME());
+                i.putExtra("mobile", cmd.getMOBILE());
+                i.putExtra("custid", cmd.getCusid());
+                startActivity(i);
+                return true;
+            }
+        });
         edt_search.addTextChangedListener(new TextWatcher() {
 
             @Override

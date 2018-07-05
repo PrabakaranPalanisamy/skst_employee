@@ -21,16 +21,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_addcustomer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/semitrnsparent"
-                android:text="Add Customer"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/primary"
-                android:visibility="gone" />
+
 
             <Button
                 android:id="@+id/btn_collection"
@@ -108,7 +99,15 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary"
                 android:visibility="visible" />
-
+            <Button
+                android:id="@+id/btn_addcustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semitrnsparent"
+                android:text="Add Customer"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary" />
             <Button
                 android:id="@+id/btn_logout"
                 android:layout_width="match_parent"

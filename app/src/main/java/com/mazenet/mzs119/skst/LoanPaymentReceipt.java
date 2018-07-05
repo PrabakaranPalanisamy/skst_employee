@@ -37,6 +37,7 @@ import com.mazenet.mzs119.skst.Database.Databasecustomers;
 import com.mazenet.mzs119.skst.Database.Databaserecepit;
 import com.mazenet.mzs119.skst.Model.Custmodel;
 import com.mazenet.mzs119.skst.Model.Enrollmodel;
+import com.mazenet.mzs119.skst.Model.localloanmodel;
 import com.mazenet.mzs119.skst.Utils.AppController;
 import com.mazenet.mzs119.skst.Utils.Config;
 import com.mazenet.mzs119.skst.Utils.ConnectionDetector;
@@ -103,6 +104,7 @@ public class LoanPaymentReceipt extends AppCompatActivity {
     String imgfile64 = "", isimage = "false", str_interest = "";
     public static final int MEDIA_TYPE_IMAGE = 1;
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    ArrayList<localloanmodel> loanlocal = new ArrayList<>();
     private static final String TAG = IndividualReceipt.class.getSimpleName();
 
     private void takePicture() {
@@ -304,7 +306,44 @@ public class LoanPaymentReceipt extends AppCompatActivity {
         list.add("D.D");
         list.add("RTGS/NEFT");
         list.add("Card");
-        get_tobecollect();
+        try {
+
+            Calendar newCalendar = Calendar.getInstance();
+
+            int ddd = newCalendar.get(Calendar.DAY_OF_MONTH);
+            int wwww = newCalendar.get(Calendar.WEEK_OF_YEAR);
+            if (ddd == pref.getInt("dailycheckdaymain", 0) && wwww == pref.getInt("dailycheckmonthmain", 0) && dbrecepit.getoflineinterestCount() != 0) {
+
+
+            } else {
+
+                editor.putInt("dailycheckdaymain",
+                        newCalendar.get(Calendar.DAY_OF_MONTH));
+                editor.putInt("dailycheckmonthmain",
+                        newCalendar.get(Calendar.WEEK_OF_YEAR));
+                editor.putString("companymain",
+                        pref.getString("company", null));
+
+                editor.commit();
+                dbrecepit.deletetableInterestlocal();
+                reterivelocalloans();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (cd.isConnectedToInternet()) {
+            get_tobecollect();
+        } else {
+            try {
+                String interest = dbrecepit.getinterestcust(tblid);
+                irl_interesttobe.setText("Interest to be collected : Rs. " + interest);
+            } catch (Exception e) {
+                irl_interesttobe.setText("Interest to be collected : Rs. 0");
+            }
+        }
+
+
         String advance = String.valueOf(pending);
         try {
             if (advance.contains("-")) {
@@ -1635,5 +1674,97 @@ public class LoanPaymentReceipt extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(movieReq);
 
 
+    }
+
+
+    private void reterivelocalloans() {
+
+
+        showDialog();
+
+        StringRequest localreq = new StringRequest(Request.Method.POST,
+                Config.get_tobe_collect_local, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Collection Activity", response.toString());
+
+
+                try {
+
+                    JSONObject object = new JSONObject(response);
+                    JSONArray ledgerarray = object.getJSONArray("result");
+                    System.out.println("locallllllll");
+                    try {
+                        for (int i = 0; i < ledgerarray.length(); i++) {
+                            JSONObject jObj = ledgerarray.getJSONObject(i);
+
+                            localloanmodel sched = new localloanmodel();
+                            sched.setCustid(jObj.getString("custid"));
+                            sched.setAmnt(jObj.getString("amnt"));
+                            loanlocal.add(sched);
+                        }
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                        hidePDialog();
+                    }
+
+                    if (loanlocal.size() > 0) {
+
+                        try {
+                            dbrecepit.deletetableInterestlocal();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
+
+                            Toast.makeText(LoanPaymentReceipt.this, "database loaded", Toast.LENGTH_SHORT).show();
+                            dbrecepit.addinterestlocal(loanlocal);
+                            hidePDialog();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        hidePDialog();
+                        Toast.makeText(LoanPaymentReceipt.this, "Try again", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    hidePDialog();
+                }
+
+
+            }
+        }, new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("Activity", "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                hidePDialog();
+            }
+        })
+
+        {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                return params;
+            }
+
+        };
+        localreq.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(localreq);
     }
 }

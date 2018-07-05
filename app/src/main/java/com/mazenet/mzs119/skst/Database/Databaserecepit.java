@@ -11,13 +11,14 @@ import com.mazenet.mzs119.skst.Model.LoanModel;
 import com.mazenet.mzs119.skst.Model.LoanModelDatewise;
 import com.mazenet.mzs119.skst.Model.TempEnrollModel;
 import com.mazenet.mzs119.skst.Model.TempLoanModel;
+import com.mazenet.mzs119.skst.Model.localloanmodel;
 
 import java.util.ArrayList;
 
 
 public class Databaserecepit extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
     private static final String DATABASE_NAME = "chit_recepit";
     private static final String DB_RECEIPT = "fullreceipt";
     private static final String TABLE_CONTACTS = "recepit";
@@ -103,6 +104,13 @@ public class Databaserecepit extends SQLiteOpenHelper {
     private static final String KEY_VIEW_AMNT = "VIEW_AMNT";
     private static final String KEY_VIEW_DATE = "VIEW_DATE";
     private static final String KEY_VIEW_REFEREGRP = "VIEW_REFEREGRP";
+
+    //------------------------------------------------------------------------------------------------------------------
+    private static final String TABLE_LOAN_INTEREST = "Interest_local";
+    private static final String KEY_INT_CUSTID = "int_custid";
+    private static final String KEY_INT_ID = "int_id";
+    private static final String KEY_INT_AMNT = "int_amnt";
+    //----------------------------------------------------------------------------------------------------------------------
 
 
     public void updatepayamount(String amount, String id, String amount1) {
@@ -254,6 +262,11 @@ public class Databaserecepit extends SQLiteOpenHelper {
                 + KEY_TEMP_LOAN_transdate + " TEXT,"
                 + KEY_TEMP_LOAN_debitto + " TEXT"
                 + ")";
+        String CREATE_INTEREST_LOCAL = "CREATE TABLE " + TABLE_LOAN_INTEREST + "("
+                + KEY_INT_ID + " INTEGER PRIMARY KEY,"
+                + KEY_INT_CUSTID + " TEXT,"
+                + KEY_INT_AMNT + " TEXT"
+                + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
         db.execSQL(CREATE_TEMP_RECEIPT);
         db.execSQL(CREATE_DB_RECEIPT);
@@ -261,6 +274,8 @@ public class Databaserecepit extends SQLiteOpenHelper {
         db.execSQL(CREATE_LOAN_TABLE);
         db.execSQL(CREATE_TEMP_LOAN_TABLE);
         db.execSQL(CREATE_LOANS_VIEW);
+        db.execSQL(CREATE_INTEREST_LOCAL);
+
     }
 
     @Override
@@ -272,12 +287,19 @@ public class Databaserecepit extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOANS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TEMP_LOANS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_VIEW_LOANS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOAN_INTEREST);
         onCreate(db);
     }
 
     public void deletetable() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CONTACTS, null, null);
+        db.close();
+    }
+
+    public void deletetableInterestlocal() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_LOAN_INTEREST, null, null);
         db.close();
     }
 
@@ -551,6 +573,32 @@ public class Databaserecepit extends SQLiteOpenHelper {
             db.insert(DB_RECEIPT, null, values);
         }
         db.close();
+    }
+
+    public void addinterestlocal(ArrayList<localloanmodel> sched) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        for (int i = 0; i < sched.size(); i++) {
+
+            ContentValues values = new ContentValues();
+            localloanmodel contact = sched.get(i);
+
+            values.put(KEY_INT_CUSTID, contact.getCustid());
+            values.put(KEY_INT_AMNT, contact.getAmnt());
+            db.insert(TABLE_LOAN_INTEREST, null, values);
+        }
+        db.close();
+    }
+
+    public String getinterestcust(String cusid) {
+        //  ArrayList<localloanmodel> contactList = new ArrayList<localloanmodel>();
+        String selectQuery = "SELECT  * FROM " + TABLE_LOAN_INTEREST + " WHERE " + KEY_INT_CUSTID + " = " + "'" + cusid + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        String amnt = cursor.getString(2);
+        db.close();
+
+        return amnt;
     }
 
     public ArrayList<Enrollmodel> getreceiptforcust(String cusid) {
@@ -956,6 +1004,17 @@ public class Databaserecepit extends SQLiteOpenHelper {
 
     public int getoflinedbCount() {
         String countQuery = "SELECT  * FROM " + DB_RECEIPT;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int value = cursor.getCount();
+        db.close();
+
+        return value;
+    }
+
+    public int getoflineinterestCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_LOAN_INTEREST;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 

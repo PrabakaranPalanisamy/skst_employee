@@ -180,6 +180,7 @@ public class CollectionActivity extends AppCompatActivity {
                     editor.putInt("dailycheckmonthmain",
                             newCalendar.get(Calendar.WEEK_OF_YEAR));
                     editor.commit();
+                    dbcust.deletetable();
                     reteriveall();
                 } else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(
@@ -226,6 +227,7 @@ public class CollectionActivity extends AppCompatActivity {
                         pref.getString("company", null));
 
                 editor.commit();
+                dbfeed.deletetable();
                 reterivefeedback();
             }
 

@@ -79,17 +79,18 @@ public class AddCustomer extends AppCompatActivity {
     RadioButton rb_male, rb_female, rb_shemale, rb_customer, rb_employee, rb_self, rb_father, rb_spouse;
     EditText edt_firstname, edt_branchName, edt_initial, edt_age, edt_mobileno, edt_alternateMobile, edt_email, edt_aadhar, edt_pan, edt_ration, edt_father, edt_spouse, edt_presentAddress, edt_presentCity,
             edt_presentDistrict, edt_presentstate, edt_presentPin, edt_addressCommunication, edt_retiremnetdate, edt_doj, edt_refercust, edt_referemply,
-            edt_communicationCity, edt_CommunicationDistrict, edt_pfnumber, edt_occupation, edt_CommunicationState, edt_CommunicationPin, edt_netSalary;
+            edt_communicationCity, edt_CommunicationDistrict, edt_pfnumber, edt_occupation, edt_CommunicationState, edt_CommunicationPin, edt_netSalary, edt_collectagent;
     String str_saluteSpinner = "", str_sourceoffunds = "", str_fname = "", DOB1 = "", doj1 = "", str_edt_initial = "", str_age = "", str_mobileno = "", str_gender = "", str_alternatemobile = "", str_email = "", str_aadhar = "", str_pan = "", str_ration = "", str_presentAddress = "",
             str_presentCity = "", str_presentDistrict = "", str_presentState = "", str_presentPin = "", str_communicationAddress = "", str_retirementdate = "", str_communicationCity = "",
             str_communicationDistrict = "", str_spousename = "", str_fathername = "", str_communicationState = "", str_referType = "", str_pfnumber = "", str_occupation = "", str_communicationPin = "", str_netSalary = "";
     SimpleDateFormat df;
-    ListView listBranch, listReferer, listReferEmplyee;
+    ListView listBranch, listReferer, listReferEmplyee, listcollectagent;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     String Branchid = "0";
     String ReferCustomer = "0";
     String ReferEmployee = "0";
     String ReferId = "";
+    String collectagent = "";
     int mailcheck = 0, mobilecheck = 0;
     private JSONObject jobj;
     private JSONArray jsonarray;
@@ -151,6 +152,7 @@ public class AddCustomer extends AppCompatActivity {
         edt_occupation = (EditText) findViewById(R.id.edt_ac_occupation);
         edt_pfnumber = (EditText) findViewById(R.id.edt_ac_pfnumber);
         edt_netSalary = (EditText) findViewById(R.id.edt_ac_netsalary);
+        edt_collectagent = (EditText) findViewById(R.id.edt_ac_collectagent);
 
         rg_gender = (RadioGroup) findViewById(R.id.eg_ac_gendergroup);
         rg_refertype = (RadioGroup) findViewById(R.id.rg_ac_refertype);
@@ -173,6 +175,7 @@ public class AddCustomer extends AppCompatActivity {
         listBranch = (ListView) findViewById(R.id.list_ac_branchname);
         listReferer = (ListView) findViewById(R.id.list_ac_referername);
         listReferEmplyee = (ListView) findViewById(R.id.list_ac_referemployee);
+        listcollectagent = (ListView) findViewById(R.id.list_ac_collectagent);
 
         edt_referemply.setVisibility(View.GONE);
         edt_spouse.setVisibility(View.GONE);
@@ -187,6 +190,7 @@ public class AddCustomer extends AppCompatActivity {
 
 
         df = new SimpleDateFormat("dd-MM-yyyy");
+        SaluteSpinner.setSelection(0);
         rb_male.setChecked(false);
         rb_female.setChecked(false);
         rb_shemale.setChecked(false);
@@ -255,6 +259,27 @@ public class AddCustomer extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 str_saluteSpinner = SaluteSpinner.getSelectedItem().toString();
+                switch (i) {
+
+                    case 0:
+                        System.out.println("d");
+                        rb_male.setChecked(true);
+                        rb_female.setChecked(false);
+                        rb_shemale.setChecked(false);
+                        break;
+                    case 1:
+                        System.out.println("b");
+                        rb_male.setChecked(false);
+                        rb_female.setChecked(true);
+                        rb_shemale.setChecked(false);
+                        break;
+                    case 2:
+                        System.out.println("v");
+                        rb_male.setChecked(false);
+                        rb_female.setChecked(true);
+                        rb_shemale.setChecked(false);
+                        break;
+                }
             }
 
             @Override
@@ -358,11 +383,57 @@ public class AddCustomer extends AppCompatActivity {
                 String name = cmd.getNAME();
                 edt_refercust.setText(name);
                 ReferCustomer = cmd.getCusid();
+                ReferId = ReferCustomer;
                 adapterlist.notifyDataSetChanged();
                 listReferer.setVisibility(View.GONE);
             }
         });
-        //-------------------------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------
+        edt_collectagent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String text = edt_collectagent.getText().toString();
+                if (text.equals("") || text.equals(null)) {
+                    listcollectagent.setVisibility(View.GONE);
+                    collectArrayMain.clear();
+                } else {
+                    setnewcollectAdaptertwo();
+                    ListViewHeight.setListViewHeightBasedOnChildren(listcollectagent);
+                    listcollectagent.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (collectArrayMain.size() > 0) {
+                    listcollectagent.setVisibility(View.VISIBLE);
+
+                } else {
+
+                    listcollectagent.setVisibility(View.GONE);
+                }
+
+            }
+        });
+        listcollectagent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                CollectModel cmd = collectArrayMain.get(i);
+                String name = cmd.getName();
+                edt_collectagent.setText(name);
+                collectagent = cmd.getId();
+                CollectLIst.notifyDataSetChanged();
+                listcollectagent.setVisibility(View.GONE);
+
+            }
+        });
+        //------------------------------------------------------------------------------------------------------
         edt_referemply.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -402,6 +473,8 @@ public class AddCustomer extends AppCompatActivity {
                 String name = cmd.getName();
                 edt_referemply.setText(name);
                 ReferEmployee = cmd.getId();
+                System.out.println("ref emp " + cmd.getId());
+                ReferId = ReferEmployee;
                 CollectLIst.notifyDataSetChanged();
                 listReferEmplyee.setVisibility(View.GONE);
             }
@@ -565,6 +638,10 @@ public class AddCustomer extends AppCompatActivity {
 
                     snackbar.show();
                     return;
+                } else if (edt_collectagent.getText().toString().trim().equals("")) {
+                    edt_collectagent.setError("Please Select Collection Agent");
+                    edt_collectagent.requestFocus();
+                    return;
                 } else if (edt_occupation.getText().toString().trim().equals("")) {
                     edt_occupation.setError("Please enter Occupation");
                     edt_occupation.requestFocus();
@@ -614,7 +691,19 @@ public class AddCustomer extends AppCompatActivity {
                         public void onResponse(String response) {
                             Log.i("quer", response);
                             hidePDialog();
-                            showSnackBar(AddCustomer.this, "Customer Added");
+                            try {
+                                JSONObject obj = new JSONObject(response);
+                                String status = obj.getString("status");
+                                String details = obj.getString("details");
+                                if (status.equalsIgnoreCase("1")) {
+                                    showSnackBar(AddCustomer.this, "Customer Added");
+                                } else {
+                                    Toast.makeText(AddCustomer.this, details, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
 
                         }
                     }, new Response.ErrorListener()
@@ -667,7 +756,12 @@ public class AddCustomer extends AppCompatActivity {
                             params.put("Occupation", str_occupation);
                             params.put("Created_By", pref.getString("userid", "0"));
                             params.put("Introducer_Id", ReferId);
+                            System.out.println("into id " + ReferId);
                             params.put("Introducer_type", str_referType);
+                            params.put("age", str_age);
+                            params.put("collectagent", collectagent);
+                            System.out.println("collectagent " + collectagent);
+                            System.out.println("age " + str_age);
                             return params;
                         }
 
@@ -773,6 +867,7 @@ public class AddCustomer extends AppCompatActivity {
                     edt_referemply.setText("");
                     ReferCustomer = "0";
                     ReferEmployee = "0";
+                    ReferId = "0";
                     edt_pfnumber.requestFocus();
 
 
@@ -803,8 +898,12 @@ public class AddCustomer extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (rb_male.isChecked()) {
+                    SaluteSpinner.setSelection(0);
+                    str_saluteSpinner = SaluteSpinner.getSelectedItem().toString();
                     str_gender = rb_male.getText().toString();
                 } else if (rb_female.isChecked()) {
+                    SaluteSpinner.setSelection(1);
+                    str_saluteSpinner = SaluteSpinner.getSelectedItem().toString();
                     str_gender = rb_female.getText().toString();
                 } else if (rb_shemale.isChecked()) {
                     str_gender = rb_shemale.getText().toString();
@@ -999,6 +1098,47 @@ public class AddCustomer extends AppCompatActivity {
         } else {
 
             listReferEmplyee.setVisibility(View.GONE);
+        }
+    }
+
+    private void setnewcollectAdaptertwo() {
+        collectArrayMain.clear();
+
+        String text = edt_collectagent.getText().toString();
+        text = text.toLowerCase(Locale.getDefault());
+        if (text.equals(null)) {
+
+            listcollectagent.setVisibility(View.GONE);
+            return;
+
+        } else {
+
+
+            for (int i = 0; i < collectArray.size(); i++) {
+                CollectModel cm = collectArray.get(i);
+                String name = cm.getName();
+                name = name.toLowerCase(Locale.getDefault());
+
+
+                if (name.contains(text)) {
+                    collectArrayMain.add(collectArray.get(i));
+                    CollectLIst.notifyDataSetChanged();
+                }
+
+            }
+
+
+        }
+
+        if (collectArrayMain.size() > 0) {
+            listcollectagent.setVisibility(View.VISIBLE);
+            CollectLIst = new CustomAdapterCollectAgent(AddCustomer.this, collectArrayMain);
+            CollectLIst.notifyDataSetChanged();
+            listcollectagent.setAdapter(CollectLIst);
+
+        } else {
+
+            listcollectagent.setVisibility(View.GONE);
         }
     }
 
