@@ -6,8 +6,8 @@ package com.mazenet.mzs119.skst.Utils;
 
 public class Config {
 
-  static String loginurl = "http://skstchitfunds.com/ERP/Mobile/";
-//  static String loginurl = "http://skstchitfunds.com/Test/ERP/Mobile2/";
+ // static String loginurl = "http://skstchitfunds.com/ERP/Mobile/";
+  static String loginurl = "http://skstchitfunds.com/Test/ERP/Mobile2/";
     public static String preff = "dncchits";
 
     public static String login = loginurl + "registerit.php?";
