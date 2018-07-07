@@ -56,20 +56,46 @@
         android:id="@+id/shimmer_view_container1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/lay_billhead">
-
-        <ListView
-            android:id="@+id/list_trading1"
+        android:visibility="gone"
+        android:layout_below="@+id/lay_billhead"
+       >
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="35dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="10.0sp" />
-    </com.facebook.shimmer.ShimmerFrameLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+            <include layout="@layout/data_placehoder" />
+        </LinearLayout>
 
+    </com.facebook.shimmer.ShimmerFrameLayout>
+    <ListView
+        android:id="@+id/list_trading1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="35dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/lay_billhead"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="34dp"

@@ -254,7 +254,7 @@ public class AddCustomer extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //--------------------------------------------------------------spinner value Getters---------------------------------------------------------------------------
+        //----------------------------------------------------spinner value Getters--------------------------------------------------
         SaluteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -845,7 +845,7 @@ public class AddCustomer extends AppCompatActivity {
 
             }
         });
-//------------------------------------------------------------------Radio groups-----------------------------------------------------------------------------------------
+//-----------------------------Radio groups-----------------------------------------------------------------------------------------
         rg_refertype.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {

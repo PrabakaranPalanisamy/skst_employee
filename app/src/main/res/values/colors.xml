@@ -14,7 +14,7 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="background">#dddddd</color>
 
     <color name="primary">#F7542B</color>
     <color name="primary_dark">#c54322</color>

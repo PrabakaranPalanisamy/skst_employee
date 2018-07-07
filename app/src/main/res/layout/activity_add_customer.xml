@@ -134,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:buttonTint="@color/primary"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="Male" />
 
                 <RadioButton
@@ -142,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:buttonTint="@color/primary"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="Female" />
 
                 <RadioButton
@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:buttonTint="@color/primary"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="Others" />
             </RadioGroup>
 
@@ -319,7 +319,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="2"
-                    android:buttonTint="@color/primary"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="Father's Name" />
 
                 <RadioButton
@@ -328,7 +328,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="2"
-                    android:buttonTint="@color/primary"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="Spouse's Name" />
             </RadioGroup>
         </LinearLayout>
@@ -470,7 +470,7 @@
                 android:id="@+id/cb_ac_sameaddress"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:buttonTint="@color/primary"
+                android:buttonTint="@color/colorPrimary"
                 android:text="if permanent address(same as above)" />
         </LinearLayout>
 
@@ -592,7 +592,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:buttonTint="@color/primary"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="Customer" />
 
                 <RadioButton
@@ -600,7 +600,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:buttonTint="@color/primary"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="Employee" />
 
                 <RadioButton
@@ -608,7 +608,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:buttonTint="@color/primary"
+                    android:buttonTint="@color/colorPrimary"
                     android:text="Self" />
 
             </RadioGroup>
