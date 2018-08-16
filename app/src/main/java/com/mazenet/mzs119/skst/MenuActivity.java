@@ -39,7 +39,7 @@ import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity {
 
-    Button btn_addcustomer, btn_addenrollment, btn_collection, btn_logout, btn_outstanding, btn_viewcol, btn_cashinhand, btn_monthy, btn_weekly, btn_loan;
+    Button btn_addcustomer, btn_mycust, btn_collection, btn_logout, btn_outstanding, btn_viewcol, btn_cashinhand, btn_monthy, btn_weekly, btn_loan;
     ArrayList<TempEnrollModel> tempreceipt = new ArrayList<>();
     ArrayList<TempLoanModel> temploanreceipt = new ArrayList<>();
     SharedPreferences pref;
@@ -86,6 +86,7 @@ public class MenuActivity extends AppCompatActivity {
         android_id = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         btn_addcustomer = (Button) findViewById(R.id.btn_addcustomer);
+        btn_mycust = (Button) findViewById(R.id.btn_mycustomers);
         btn_loan = (Button) findViewById(R.id.btn_loans);
         btn_weekly = (Button) findViewById(R.id.btn_WeeklyCol);
         pref = getApplicationContext().getSharedPreferences(Config.preff, MODE_PRIVATE);
@@ -161,6 +162,13 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent it = new Intent(MenuActivity.this, LoanPayments.class);
+                startActivity(it);
+            }
+        });
+        btn_mycust.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(MenuActivity.this, MyCustomers.class);
                 startActivity(it);
             }
         });

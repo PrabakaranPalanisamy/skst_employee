@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Databaserecepit extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     private static final String DATABASE_NAME = "chit_recepit";
     private static final String DB_RECEIPT = "fullreceipt";
     private static final String TABLE_CONTACTS = "recepit";
@@ -153,10 +153,12 @@ public class Databaserecepit extends SQLiteOpenHelper {
                 + KEY_cusbranch + " TEXT,"
                 + KEY_pendingdays + " TEXT,"
                 + KEY_insamt + " TEXT,"
+                + KEY_CUSID + " TEXT,"
                 + KEY_Advance + " TEXT,"
                 + KEY_Paymenttype + " TEXT,"
-                + KEY_paid_details + " TEXT,"
-                + KEY_completed_action + " TEXT"
+                + KEY_collectemp + " TEXT,"
+                + KEY_completed_action + " TEXT,"
+                + KEY_paid_details + " TEXT"
                 + ")";
 
         String CREATE_DB_RECEIPT = "CREATE TABLE " + DB_RECEIPT + "("
@@ -180,6 +182,8 @@ public class Databaserecepit extends SQLiteOpenHelper {
                 + KEY_completed_action + " TEXT,"
                 + KEY_paid_details + " TEXT"
                 + ")";
+
+
         String CREATE_TEMP_RECEIPT = "CREATE TABLE " + TABLE_TEMP_RECEIPT + "("
                 + KEY_TEMP_ID + " INTEGER PRIMARY KEY,"
                 + KEY_TEMP_Cusid + " TEXT,"
@@ -207,6 +211,7 @@ public class Databaserecepit extends SQLiteOpenHelper {
                 + KEY_TEMP_STATUS + " TEXT,"
                 + KEY_TEMP_Advance + " TEXT"
                 + ")";
+
         String CREATE_VIEW_RECEIPT = "CREATE TABLE " + TABLE_VIEW_RECEIPT + "("
                 + KEY_TEMP_ID + " INTEGER PRIMARY KEY,"
                 + KEY_TEMP_Cusid + " TEXT,"
@@ -235,6 +240,7 @@ public class Databaserecepit extends SQLiteOpenHelper {
                 + KEY_TEMP_Advance + " TEXT,"
                 + KEY_VIEW_Date + " TEXT"
                 + ")";
+
         String CREATE_LOAN_TABLE = "CREATE TABLE " + TABLE_LOANS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_LOAN_ID + " TEXT,"
@@ -544,7 +550,7 @@ public class Databaserecepit extends SQLiteOpenHelper {
 
         return contactList;
     }
-
+//===================================================================================================
     public void addallreceipt(ArrayList<Enrollmodel> sched) {
         SQLiteDatabase db = this.getWritableDatabase();
         for (int i = 0; i < sched.size(); i++) {
@@ -575,6 +581,130 @@ public class Databaserecepit extends SQLiteOpenHelper {
         db.close();
     }
 
+
+    public void addenroll(ArrayList<Enrollmodel> sched) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        for (int i = 0; i < sched.size(); i++) {
+            ContentValues values = new ContentValues();
+
+            Enrollmodel contact = sched.get(i);
+            values.put(KEY_enrollid, contact.getEnrollid());
+            values.put(KEY_Scheme, contact.getScheme());
+            values.put(KEY_Pending_Amt, contact.getPending_Amt());
+            values.put(KEY_Penalty_Amt, contact.getPenalty_Amt());
+            values.put(KEY_Bonus_Amt, contact.getBonus_Amt());
+            values.put(KEY_Paid_Amt, contact.getPaid_Amt());
+            values.put(KEY_Group_Name, contact.getGroup_Name());
+            values.put(KEY_payamount, contact.getPayamount());
+            values.put(KEY_Group_Ticket_Name, contact.getGroup_Ticket_Name());
+            values.put(KEY_cusbranch, contact.getCusbranch());
+            values.put(KEY_pendingdays, contact.getPendingdys());
+            values.put(KEY_insamt, "0");
+            values.put(KEY_CUSID, contact.getCusid());
+            values.put(KEY_collectemp, contact.getCollect_emp());
+            values.put(KEY_Advance, contact.getAdvanceamnt());
+            values.put(KEY_Paymenttype, contact.getPaymentType());
+            values.put(KEY_completed_action, contact.getCompleted_auction());
+            values.put(KEY_paid_details, contact.getPaid_details());
+
+
+            db.insert(TABLE_CONTACTS, null, values);
+        }
+        db.close();
+    }
+
+
+    public ArrayList<Enrollmodel> getreceiptforcustlocal(String cusid) {
+        ArrayList<Enrollmodel> contactList = new ArrayList<Enrollmodel>();
+        System.out.println("cusiddb ="+cusid);
+
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_CUSID + " = " + "'" + cusid + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Enrollmodel contact = new Enrollmodel();
+                contact.setTableid(cursor.getString(0));
+                contact.setEnrollid(cursor.getString(1));
+                contact.setScheme(cursor.getString(2));
+                contact.setPending_Amt(cursor.getString(3));
+                contact.setPenalty_Amt(cursor.getString(4));
+                contact.setBonus_Amt(cursor.getString(5));
+                contact.setPaid_Amt(cursor.getString(6));
+                contact.setGroup_Name(cursor.getString(7));
+                contact.setPayamount(cursor.getString(8));
+                contact.setGroup_Ticket_Name(cursor.getString(9));
+                contact.setCusbranch(cursor.getString(10));
+                contact.setPendingdys(cursor.getString(11));
+                contact.setInsamt(cursor.getString(12));
+                contact.setCusid(cursor.getString(13));
+                contact.setAdvanceamnt(cursor.getString(14));
+                contact.setPaymentType(cursor.getString(15));
+                contact.setCollect_emp(cursor.getString(16));
+                contact.setCompleted_auction(cursor.getString(17));
+                contact.setPaid_details(cursor.getString(18));
+                contactList.add(contact);
+
+
+
+            } while (cursor.moveToNext());
+        }
+        db.close();
+
+        return contactList;
+    }
+
+
+    public ArrayList<Enrollmodel> getreceiptforcustlocal(String cusid, String type) {
+        ArrayList<Enrollmodel> contactList = new ArrayList<Enrollmodel>();
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_CUSID + " = " + "'" + cusid + "' AND " + KEY_Paymenttype + " = " + "'" + type + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Enrollmodel contact = new Enrollmodel();
+                contact.setTableid(cursor.getString(0));
+                contact.setEnrollid(cursor.getString(1));
+                contact.setScheme(cursor.getString(2));
+                contact.setPending_Amt(cursor.getString(3));
+                contact.setPenalty_Amt(cursor.getString(4));
+                contact.setBonus_Amt(cursor.getString(5));
+                contact.setPaid_Amt(cursor.getString(6));
+                contact.setGroup_Name(cursor.getString(7));
+                contact.setPayamount(cursor.getString(8));
+                contact.setGroup_Ticket_Name(cursor.getString(9));
+                contact.setCusbranch(cursor.getString(10));
+                contact.setPendingdys(cursor.getString(11));
+                contact.setInsamt(cursor.getString(12));
+                contact.setCusid(cursor.getString(13));
+                contact.setAdvanceamnt(cursor.getString(14));
+                contact.setPaymentType(cursor.getString(15));
+                contact.setCollect_emp(cursor.getString(16));
+                contact.setCompleted_auction(cursor.getString(17));
+                contact.setPaid_details(cursor.getString(18));
+
+
+
+                contactList.add(contact);
+
+
+            } while (cursor.moveToNext());
+        }
+        db.close();
+
+        return contactList;
+    }
+
+
+
+
+
+
+//===============================================================================================
     public void addinterestlocal(ArrayList<localloanmodel> sched) {
         SQLiteDatabase db = this.getWritableDatabase();
         for (int i = 0; i < sched.size(); i++) {
@@ -603,6 +733,8 @@ public class Databaserecepit extends SQLiteOpenHelper {
 
     public ArrayList<Enrollmodel> getreceiptforcust(String cusid) {
         ArrayList<Enrollmodel> contactList = new ArrayList<Enrollmodel>();
+        System.out.println("cusiddb ="+cusid);
+
         String selectQuery = "SELECT  * FROM " + DB_RECEIPT + " WHERE " + KEY_CUSID + " = " + "'" + cusid + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -630,6 +762,7 @@ public class Databaserecepit extends SQLiteOpenHelper {
                 contact.setCompleted_auction(cursor.getString(17));
                 contact.setPaid_details(cursor.getString(18));
                 contactList.add(contact);
+                System.out.println("paiddetailsdbfetch ="+cursor.getString(18));
 
 
             } while (cursor.moveToNext());
@@ -638,6 +771,10 @@ public class Databaserecepit extends SQLiteOpenHelper {
 
         return contactList;
     }
+
+
+
+
 
     public ArrayList<Enrollmodel> getreceiptforcust(String cusid, String type) {
         ArrayList<Enrollmodel> contactList = new ArrayList<Enrollmodel>();
@@ -714,32 +851,7 @@ public class Databaserecepit extends SQLiteOpenHelper {
         return contactList;
     }
 
-    public void addenroll(ArrayList<Enrollmodel> sched) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        for (int i = 0; i < sched.size(); i++) {
-            ContentValues values = new ContentValues();
 
-            Enrollmodel contact = sched.get(i);
-            values.put(KEY_enrollid, contact.getEnrollid());
-            values.put(KEY_Scheme, contact.getScheme());
-            values.put(KEY_Pending_Amt, contact.getPending_Amt());
-            values.put(KEY_Penalty_Amt, contact.getPenalty_Amt());
-            values.put(KEY_Bonus_Amt, contact.getBonus_Amt());
-            values.put(KEY_Paid_Amt, contact.getPaid_Amt());
-            values.put(KEY_Group_Name, contact.getGroup_Name());
-            values.put(KEY_payamount, contact.getPayamount());
-            values.put(KEY_Group_Ticket_Name, contact.getGroup_Ticket_Name());
-            values.put(KEY_cusbranch, contact.getCusbranch());
-            values.put(KEY_pendingdays, contact.getPendingdys());
-            values.put(KEY_insamt, "0");
-            values.put(KEY_Advance, contact.getAdvanceamnt());
-            values.put(KEY_Paymenttype, contact.getPaymentType());
-            values.put(KEY_completed_action, contact.getCompleted_auction());
-            values.put(KEY_paid_details, contact.getPaid_details());
-            db.insert(TABLE_CONTACTS, null, values);
-        }
-        db.close();
-    }
 
     public void addviewreceipt(String cusid, String Cusname, String enrollid, String scheme, String penaltyamnt, String bonusamnt, String paidamnt, String groupname, String payamout, String grp_tic_name, String cusbranch, String pend_days, String insamnt, String cheqno, String pendamnt, String cheqdate, String Cheqbank, String Cheqbranch, String tranno, String transdate, String paytype, String remark, String status, String advance, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -933,7 +1045,12 @@ public class Databaserecepit extends SQLiteOpenHelper {
                 contact.setCusbranch(cursor.getString(10));
                 contact.setPendingdys(cursor.getString(11));
                 contact.setInsamt(cursor.getString(12));
-                contact.setAdvanceamnt(cursor.getString(13));
+                contact.setCusid(cursor.getString(13));
+                contact.setAdvanceamnt(cursor.getString(14));
+                contact.setPaymentType(cursor.getString(15));
+                contact.setCollect_emp(cursor.getString(16));
+                contact.setCompleted_auction(cursor.getString(17));
+                contact.setPaid_details(cursor.getString(18));
 
                 contactList.add(contact);
 

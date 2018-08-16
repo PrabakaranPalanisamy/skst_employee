@@ -3,13 +3,10 @@ package com.mazenet.mzs119.skst;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.constraint.ConstraintLayout;
-import android.widget.RelativeLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -17,12 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,9 +31,7 @@ import com.mazenet.mzs119.skst.Adapter.CustomAdapterDatewise;
 import com.mazenet.mzs119.skst.Adapter.CustomAdapterLoanDatewise;
 import com.mazenet.mzs119.skst.Adapter.CustomAdapterLoanPayments;
 import com.mazenet.mzs119.skst.Model.DateWiseViewModel;
-import com.mazenet.mzs119.skst.Model.LoanModel;
 import com.mazenet.mzs119.skst.Model.LoanModelDatewise;
-import com.mazenet.mzs119.skst.Model.TempEnrollModel;
 import com.mazenet.mzs119.skst.Utils.AppController;
 import com.mazenet.mzs119.skst.Utils.Config;
 import com.mazenet.mzs119.skst.Utils.ConnectionDetector;
@@ -223,7 +219,7 @@ public class DateWiseView extends AppCompatActivity {
 
                                     DateWiseViewModel tem = listmain.get(i);
                                     String tote = tem.getTotal_Amount();
-
+                                    tote=tote.trim();
                                     try {
                                         int tot = Integer.parseInt(tote);
                                         tot1 += tot;
@@ -431,6 +427,7 @@ public class DateWiseView extends AppCompatActivity {
                             for (int i = 0; i < loan_list_main.size(); i++) {
                                 LoanModelDatewise lm = loan_list_main.get(i);
                                 String loantot = lm.getAmount();
+                                loantot=loantot.trim();
                                 System.out.println("loan to " + loantot);
                                 int to = Integer.parseInt(loantot);
                                 tot1 += to;

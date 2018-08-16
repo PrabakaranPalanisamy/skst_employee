@@ -38,6 +38,25 @@ public class Custmodel {
     }
 
     String paymenttype;
+    String grpname;
+
+    public String getGrpname() {
+        return grpname;
+    }
+
+    public void setGrpname(String grpname) {
+        this.grpname = grpname;
+    }
+
+    public String getGrpticket() {
+        return grpticket;
+    }
+
+    public void setGrpticket(String grpticket) {
+        this.grpticket = grpticket;
+    }
+
+    String grpticket;
 
     public String getCusid() {
         return Cusid;

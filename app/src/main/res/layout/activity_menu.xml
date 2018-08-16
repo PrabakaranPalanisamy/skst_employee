@@ -102,6 +102,14 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/primary" />
             <Button
+                android:id="@+id/btn_mycustomers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/mybuttonbottombar1"                android:text="My Customer"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/primary" />
+            <Button
                 android:id="@+id/btn_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

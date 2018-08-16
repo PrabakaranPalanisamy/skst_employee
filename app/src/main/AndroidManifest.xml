@@ -35,6 +35,7 @@
         <activity android:name=".PrintActivityLoans" />
         <activity android:name=".PrintActivityLoansDatewise" />
         <activity android:name=".AddCustomer" />
+        <activity android:name=".MyCustomers" />
 
         <receiver
             android:name=".NetworkChangeReceiver"

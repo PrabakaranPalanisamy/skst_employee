@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -44,7 +43,6 @@ import com.mazenet.mzs119.skst.Model.Enrollmodel;
 import com.mazenet.mzs119.skst.Utils.AppController;
 import com.mazenet.mzs119.skst.Utils.Config;
 import com.mazenet.mzs119.skst.Utils.ConnectionDetector;
-import com.mazenet.mzs119.skst.Utils.FilePath;
 import com.mazenet.mzs119.skst.Utils.NDSpinner;
 import com.mazenet.mzs119.skst.Utils.NonScrollListView;
 
@@ -1396,6 +1394,7 @@ public class IndividualReceipt extends AppCompatActivity {
     public void postentry(final String enrollidd, final String bonusamt, final String paidamt, final String pendingamt, final String penaltyamt, final String Group, final String ticketno, final String payableamount, final String Remark, final String chitvalue, final String paytype, final String Cus_Branch, final String Pending_Days, final String status) {
 
         showDialog();
+       // btn_submit.setVisibility(View.GONE);
         StringRequest movieReq = new StringRequest(Request.Method.POST,
                 url2, new Response.Listener<String>() {
             @Override

@@ -84,32 +84,7 @@ public class RecepitActivity extends AppCompatActivity {
     String str_chedate = "", str_dddate = "", str_rtgsdate = "", str_cheno = "", str_chebank = "", str_chebranch = "", str_remark = "", str_tranno = "", ReceiptGroup = "", typee = "";
     Double BonusAmnt = 0.0, penaltyAmnt = 0.0, pendingnt = 0.0, payableamnt = 0.0;
     private ProgressDialog pDialog;
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.indireceipt, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.individual_receipt:
-
-                Intent i = new Intent(RecepitActivity.this, IndividualReceipt.class);
-                i.putExtra("cusid", cusid);
-                i.putExtra("cusname", cusname);
-                startActivity(i);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    } */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,12 +168,10 @@ public class RecepitActivity extends AppCompatActivity {
                         newCalendar.get(Calendar.DAY_OF_MONTH));
                 editor.putInt("dailycheckmonthmain",
                         newCalendar.get(Calendar.WEEK_OF_YEAR));
-                editor.putString("companymain",
-                        pref.getString("company", null));
 
                 editor.commit();
                 reterivelocal();
-                //  reteriveall();
+
             }
 
         } catch (Exception e) {
@@ -206,8 +179,10 @@ public class RecepitActivity extends AppCompatActivity {
         }
 
         if (cd.isConnectedToInternet()) {
+            System.out.println("int");
             reteriveall();
         } else {
+            System.out.println("noint");
             reterivefromdb();
         }
 
@@ -563,11 +538,10 @@ public class RecepitActivity extends AppCompatActivity {
                                 } else if (payamount.equalsIgnoreCase("0")) {
 
                                 } else {
-                                    //postentry(enrollid, bonusamt, paidamt, pendingamt, penaltyamt, Group, ticketno, payableamount, str_remark, chitvalue, "cash", cusbranch, pendingdays, "Active");
+
                                 }
 
                             }
-                            //  updateenroll();
                         } else {
 
                         }
@@ -579,19 +553,7 @@ public class RecepitActivity extends AppCompatActivity {
                     onBackPressed();
                     ReceiptGroup = groupnam.toString();
 
-                /*    Intent it = new Intent(RecepitActivity.this, PrintActivity.class);
-                    it.putExtra("Cusname", cusname);
-                    it.putExtra("Amount", amount);
-                    it.putExtra("Groupname", ReceiptGroup);
-                    //it.putExtra("ticketno", ticketno);
-                    it.putExtra("paymode", paytype);
-                    it.putExtra("bonusamnt",BonusAmnt.toString());
-                    it.putExtra("pendingamnt",pendingnt.toString());
-                    it.putExtra("penaltyamnt",penaltyAmnt.toString());
-                    it.putExtra("instlmntamnt",payableamnt.toString());
-                    it.putExtra("Receiptno", "DPI-15221");
-                    startActivity(it);
-                    finish(); */
+
                 } else {
                     Toast.makeText(RecepitActivity.this, "Amount Mismatch", Toast.LENGTH_LONG).show();
                 }
@@ -817,8 +779,39 @@ public class RecepitActivity extends AppCompatActivity {
             adapterlist = new CustomAdapterenrollment(RecepitActivity.this, enroll_listlocmain);
             adapterlist.notifyDataSetChanged();
             System.out.println(enroll_listlocmain + " locmain");
-            //ListViewHeight.setListViewHeightBasedOnChildren(lst_re_enroll);
             lst_re_enroll.setAdapter(adapterlist);
+        }
+
+
+        hidePDialog();
+    }
+
+    private void reterivefromdblocal() {
+        showDialog();
+        enroll_list.clear();
+
+        if (typee.equalsIgnoreCase("Monthly")) {
+            System.out.println("month");
+            enroll_list = dbrecepit.getreceiptforcustlocal(cusid, typee);
+        } else if (typee.equalsIgnoreCase("Weekly")) {
+            System.out.println("week");
+            enroll_list = dbrecepit.getreceiptforcustlocal(cusid, typee);
+        } else if (typee.equalsIgnoreCase("Daily")) {
+            System.out.println("da");
+            enroll_list = dbrecepit.getreceiptforcustlocal(cusid, typee);
+        } else {
+            System.out.println("a");
+            enroll_list = dbrecepit.getreceiptforcustlocal(cusid);
+        }
+        if (enroll_list.size() > 0) {
+            enroll_listlocmain.addAll(enroll_list);
+            adapterlist = new CustomAdapterenrollment(RecepitActivity.this, enroll_listlocmain);
+            adapterlist.notifyDataSetChanged();
+            System.out.println(enroll_listlocmain + " locmain");
+            lst_re_enroll.setAdapter(adapterlist);
+        }else
+        {
+            reterivefromdb();
         }
 
 
@@ -835,7 +828,8 @@ public class RecepitActivity extends AppCompatActivity {
                 url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("Collection Activity", response.toString());
+                System.out.println(response.toString());
+
                 hidePDialog();
 
 
@@ -864,9 +858,14 @@ public class RecepitActivity extends AppCompatActivity {
                             sched.setPaymentType(jObj.getString("Payment_Type"));
                             sched.setCompleted_auction(jObj.getString("Completed_auction"));
                             sched.setPaid_details(jObj.getString("Paid_Details"));
-                            System.out.println(jObj.getString("Paid_Details"));
+                            sched.setCusid(cusid);
+
+                            System.out.println("Paiddetails ="+jObj.getString("Paid_Details"));
                             sched.setPayamount("0");
                             enroll_list.add(sched);
+
+
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -882,12 +881,8 @@ public class RecepitActivity extends AppCompatActivity {
 
                         try {
                             dbrecepit.addenroll(enroll_list);
-                            reterivefromdb();
-                            //  adapterlist = new CustomAdapterenrollment(RecepitActivity.this, enroll_list);
-                            //  adapterlist.notifyDataSetChanged();
-                            //  ListViewHeight.setListViewHeightBasedOnChildren(lst_re_enroll);
-                            //  lst_re_enroll.setAdapter(adapterlist);
-                            //  customer_list.clear();
+                            reterivefromdblocal();
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -1035,13 +1030,8 @@ public class RecepitActivity extends AppCompatActivity {
                         }
 
                         try {
-                            // Toast.makeText(RecepitActivity.this, "database loaded", Toast.LENGTH_SHORT).show();
                             dbrecepit.addallreceipt(enroll_list_local);
-                            // adapterlist = new CustomAdapterenrollment(RecepitActivity.this, enroll_list_local);
-                            //adapterlist.notifyDataSetChanged();
-                            //ListViewHeight.setListViewHeightBasedOnChildren(lst_re_enroll);
-                            // lst_re_enroll.setAdapter(adapterlist);
-                            //customer_list.clear();
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

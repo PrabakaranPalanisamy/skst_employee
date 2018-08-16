@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Databasecustomers extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_NAME = "chit_customers.db";
 
@@ -33,6 +33,21 @@ public class Databasecustomers extends SQLiteOpenHelper {
     private static final String KEY_pendingdays = "pendingdays";
     private static final String KEY_paymenttype = "payment_type";
     private static final String KEY_collectemp = "collect_emp";
+
+    //=====================================================================
+    private static final String TABLE_MYCUSTOMERS = "mycustomers";
+    private static final String KEY_MID = "myid";
+    private static final String KEY_MCusid = "mycust_id";
+    private static final String KEY_Mcustomer_id = "mycustomer_id";
+    private static final String KEY_MNAME = "myname";
+    private static final String KEY_MMOBILE = "mymobile";
+    private static final String KEY_Mtotalpaid = "mytotpaid";
+    private static final String KEY_Mtotalpending = "mytotpending";
+    private static final String KEY_Mgrpname = "grpname";
+    private static final String KEY_Mgrpticket = "grpticket";
+
+
+    //====================================================================
 
     public Databasecustomers(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -57,12 +72,28 @@ public class Databasecustomers extends SQLiteOpenHelper {
                 + KEY_paymenttype + " TEXT,"
                 + KEY_collectemp + " TEXT"
                 + ")";
+
+        String CREATE_MYCONTACTS_TABLE = "CREATE TABLE " + TABLE_MYCUSTOMERS + "("
+                + KEY_MID + " INTEGER PRIMARY KEY,"
+                + KEY_MCusid + " TEXT,"
+                + KEY_Mcustomer_id + " TEXT,"
+                + KEY_MNAME + " TEXT,"
+                + KEY_MMOBILE + " TEXT,"
+                + KEY_Mtotalpaid + " TEXT,"
+                + KEY_Mtotalpending + " TEXT,"
+                + KEY_Mgrpname + " TEXT,"
+                + KEY_Mgrpticket + " TEXT"
+                +")";
+
+
         db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_MYCONTACTS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MYCUSTOMERS);
 
         onCreate(db);
     }
@@ -71,9 +102,57 @@ public class Databasecustomers extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_CONTACTS, null, null);
+        db.delete(TABLE_MYCUSTOMERS, null, null);
+        db.close();
+    }
+    public void deletetablemycust() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MYCUSTOMERS, null, null);
         db.close();
     }
 
+    public void addmycustomer(ArrayList<Custmodel> sched) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        for (int i = 0; i < sched.size(); i++) {
+            ContentValues values = new ContentValues();
+            Custmodel contact = sched.get(i);
+            values.put(KEY_MCusid, contact.getCusid());
+            values.put(KEY_Mcustomer_id, contact.getCustomer_id());
+            values.put(KEY_MNAME, contact.getNAME());
+            values.put(KEY_MMOBILE, contact.getMOBILE());
+            values.put(KEY_Mtotalpending, contact.getTotalenrlpending());
+            values.put(KEY_Mtotalpaid, contact.getEnrlpaid());
+            values.put(KEY_Mgrpname, contact.getGrpname());
+            values.put(KEY_Mgrpticket, contact.getGrpticket());
+            db.insert(TABLE_MYCUSTOMERS, null, values);
+        }
+        db.close();
+    }
+    public ArrayList<Custmodel> getmyContacts() {
+        ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
+        String selectQuery = "SELECT  * FROM " + TABLE_MYCUSTOMERS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Custmodel contact = new Custmodel();
+                contact.setCusid(cursor.getString(1));
+                contact.setCustomer_id(cursor.getString(2));
+                contact.setNAME(cursor.getString(3));
+                contact.setMOBILE(cursor.getString(4));
+                contact.setTotalenrlpending(cursor.getString(6));
+                contact.setEnrlpaid(cursor.getString(5));
+                contact.setGrpname(cursor.getString(7));
+                contact.setGrpticket(cursor.getString(8));
+                contactList.add(contact);
+
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return contactList;
+    }
     public void addcustomer(ArrayList<Custmodel> sched) {
         SQLiteDatabase db = this.getWritableDatabase();
         for (int i = 0; i < sched.size(); i++) {
@@ -198,9 +277,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getmycontactswithoutsatndings(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid+ "'"+" AND "+ KEY_totalenrlpending+" != '0' "+" OR "+KEY_totalenrlpending + " != null";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid + "'" + " AND " + KEY_totalenrlpending + " != '0' " + " OR " + KEY_totalenrlpending + " != null";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -231,9 +311,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getallcontactswithoutsatndings(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " != '" + empid+ "' AND "+ KEY_totalenrlpending+" != '0' "+" OR "+KEY_totalenrlpending + " != null";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " != '" + empid + "' AND " + KEY_totalenrlpending + " != '0' " + " OR " + KEY_totalenrlpending + " != null";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -298,9 +379,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getAllDAILYmycontacts(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid +"' AND "+ KEY_paymenttype + " = " + "'Daily'";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid + "' AND " + KEY_paymenttype + " = " + "'Daily'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -331,9 +413,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getDAILYmycontactswithoutsatndings(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid+ "'"+" AND "+ KEY_paymenttype + " = " + "'Daily'" +" AND "+ KEY_totalenrlpending+" != '0' "+" OR "+KEY_totalenrlpending + " != null";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid + "'" + " AND " + KEY_paymenttype + " = " + "'Daily'" + " AND " + KEY_totalenrlpending + " != '0' " + " OR " + KEY_totalenrlpending + " != null";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -364,9 +447,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getDAILYallcontactswithoutsatndings(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " != '" + empid+ "' AND "+ KEY_paymenttype + " = " + "'Daily'" +" AND "+ KEY_totalenrlpending+" != '0' "+" OR "+KEY_totalenrlpending + " != null";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " != '" + empid + "' AND " + KEY_paymenttype + " = " + "'Daily'" + " AND " + KEY_totalenrlpending + " != '0' " + " OR " + KEY_totalenrlpending + " != null";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -397,6 +481,7 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getAllWeeklyContacts() {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
         String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_paymenttype + " = " + "'Weekly'";
@@ -430,9 +515,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getAllWEEKLYmycontacts(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid +"' AND "+ KEY_paymenttype + " = " + "'Weekly'";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid + "' AND " + KEY_paymenttype + " = " + "'Weekly'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -463,9 +549,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getWEEKLYmycontactswithoutsatndings(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid+ "'"+" AND "+ KEY_paymenttype + " = " + "'Weekly'" +" AND "+ KEY_totalenrlpending+" != '0' "+" OR "+KEY_totalenrlpending + " != null";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid + "'" + " AND " + KEY_paymenttype + " = " + "'Weekly'" + " AND " + KEY_totalenrlpending + " != '0' " + " OR " + KEY_totalenrlpending + " != null";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -496,9 +583,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getWEEKLYallcontactswithoutsatndings(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " != '" + empid+ "' AND "+ KEY_paymenttype + " = " + "'Weekly'" +" AND "+ KEY_totalenrlpending+" != '0' "+" OR "+KEY_totalenrlpending + " != null";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " != '" + empid + "' AND " + KEY_paymenttype + " = " + "'Weekly'" + " AND " + KEY_totalenrlpending + " != '0' " + " OR " + KEY_totalenrlpending + " != null";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -563,9 +651,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getAllMONTHLYmycontacts(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid +"' AND "+ KEY_paymenttype + " = " + "'Monthly'";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid + "' AND " + KEY_paymenttype + " = " + "'Monthly'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -596,9 +685,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getMONTHLYmycontactswithoutsatndings(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid+ "'"+" AND "+ KEY_paymenttype + " = " + "'Monthly'" +" AND "+ KEY_totalenrlpending+" != '0' "+" OR "+KEY_totalenrlpending + " != null";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " = '" + empid + "'" + " AND " + KEY_paymenttype + " = " + "'Monthly'" + " AND " + KEY_totalenrlpending + " != '0' " + " OR " + KEY_totalenrlpending + " != null";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -629,9 +719,10 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
         return contactList;
     }
+
     public ArrayList<Custmodel> getMONTHLYallcontactswithoutsatndings(String empid) {
         ArrayList<Custmodel> contactList = new ArrayList<Custmodel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " != '" + empid+ "' AND "+ KEY_paymenttype + " = " + "'Monthly'" +" AND "+ KEY_totalenrlpending+" != '0' "+" OR "+KEY_totalenrlpending + " != null";
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS + " WHERE " + KEY_collectemp + " != '" + empid + "' AND " + KEY_paymenttype + " = " + "'Monthly'" + " AND " + KEY_totalenrlpending + " != '0' " + " OR " + KEY_totalenrlpending + " != null";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -760,6 +851,16 @@ public class Databasecustomers extends SQLiteOpenHelper {
 
     public int getContactsCount() {
         String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int value = cursor.getCount();
+        db.close();
+
+        return value;
+    }
+    public int getmyContactsCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_MYCUSTOMERS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 

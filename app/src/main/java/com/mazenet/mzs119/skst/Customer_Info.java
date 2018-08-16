@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,12 +25,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Customer_Info extends AppCompatActivity {
-    TextView name, address, mobile, intoname, collect_area;
+    TextView name, address, mobile, intoname, collect_area, grpname, grpticket;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    String str_name, str_address, str_mobile, str_custid, str_collect_area, str_introname;
+    String str_name = "", str_address = "", str_mobile = "", str_custid = "", str_collect_area = "", str_introname = "", str_grpname = "", str_grpticket = "";
     ConnectionDetector cd;
-    LinearLayout lay_intro,lay_area;
+    LinearLayout lay_intro, lay_area;
+    CardView lay_grpname, laygrpticket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,12 @@ public class Customer_Info extends AppCompatActivity {
         mobile = (TextView) findViewById(R.id.txt_prf_mobile);
         intoname = (TextView) findViewById(R.id.txt_Intro_name);
         collect_area = (TextView) findViewById(R.id.txt_collectarea);
-        lay_area=(LinearLayout)findViewById(R.id.lay_coolectarea);
-        lay_intro=(LinearLayout)findViewById(R.id.lay_introname);
+        grpname = (TextView) findViewById(R.id.txt_prf_non_prizedchit);
+        grpticket = (TextView) findViewById(R.id.txt_prf_sub_paidamt);
+        lay_area = (LinearLayout) findViewById(R.id.lay_coolectarea);
+        lay_intro = (LinearLayout) findViewById(R.id.lay_introname);
+        lay_grpname = (CardView) findViewById(R.id.card_non_pricedchit);
+        laygrpticket = (CardView) findViewById(R.id.card_sub_paidamt);
         lay_intro.setVisibility(View.GONE);
         lay_area.setVisibility(View.GONE);
 
@@ -53,21 +59,32 @@ public class Customer_Info extends AppCompatActivity {
             str_custid = i.getStringExtra("custid");
             str_mobile = i.getStringExtra("mobile");
             str_name = i.getStringExtra("name");
-            System.out.println("custid "+str_custid);
+            str_grpname = i.getStringExtra("grpname");
+            str_grpticket = i.getStringExtra("grpticket");
+            System.out.println("custid " + str_custid+"grpn "+str_grpname+" grpti "+str_grpticket);
 
         } catch (Exception e) {
 
         }
-
+        if (!str_grpname.equalsIgnoreCase("")) {
+            System.out.println("custid " + str_custid+"grpn "+str_grpname+" grpti "+str_grpticket);
+            lay_grpname.setVisibility(View.VISIBLE);
+            grpname.setText(str_grpname);
+        }
+        if (!str_grpticket.equalsIgnoreCase("")) {
+            System.out.println("custid " + str_custid+"grpn "+str_grpname+" grpti "+str_grpticket);
+            laygrpticket.setVisibility(View.VISIBLE);
+            grpticket.setText(str_grpticket);
+        }
         if (cd.isConnectedToInternet()) {
             name.setText(str_name);
-            mobile.setText("Mobile No. "+str_mobile);
+            mobile.setText("Mobile No. " + str_mobile);
             getinfo();
 
         } else {
             Toast.makeText(Customer_Info.this, "No Internet Connection ! ", Toast.LENGTH_SHORT).show();
             name.setText(str_name);
-            mobile.setText("Mobile No. "+str_mobile);
+            mobile.setText("Mobile No. " + str_mobile);
         }
     }
 

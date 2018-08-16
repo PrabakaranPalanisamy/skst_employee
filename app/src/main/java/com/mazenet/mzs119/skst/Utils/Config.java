@@ -6,13 +6,14 @@ package com.mazenet.mzs119.skst.Utils;
 
 public class Config {
 
- // static String loginurl = "http://skstchitfunds.com/ERP/Mobile/";
-  static String loginurl = "http://skstchitfunds.com/Test/ERP/Mobile2/";
+  static String loginurl = "http://skstchitfunds.com/ERP/Mobile/";
+//  static String loginurl = "http://skstchitfunds.com/Test/ERP/Mobile2/";
     public static String preff = "dncchits";
 
     public static String login = loginurl + "registerit.php?";
     public static String deviceapprove = loginurl + "deviceapprove.php?";
     public static String reteriveusers = loginurl + "reteriveusers.php?";
+    public static String getmycustomers = loginurl + "getmycustomers.php?";
     public static String sendfeedback = loginurl + "sendfeedback.php?";
     public static String get_registration = loginurl + "get_registration.php?";
     public static String viewloans = loginurl + "View_loan.php?";

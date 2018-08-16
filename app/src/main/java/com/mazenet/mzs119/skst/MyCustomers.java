@@ -61,7 +61,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class CollectionActivity extends AppCompatActivity {
+public class MyCustomers extends AppCompatActivity {
 
 
     public ArrayList<Custmodel> customer_list = new ArrayList<Custmodel>();
@@ -72,7 +72,7 @@ public class CollectionActivity extends AppCompatActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     ConnectionDetector cd;
-    String url = Config.reteriveusers;
+    String url = Config.getmycustomers;
     String url1 = Config.sendfeedback;
     String urlfeed = Config.reterivefeedback;
     Databasecustomers dbcust;
@@ -141,7 +141,6 @@ public class CollectionActivity extends AppCompatActivity {
         pDialog.setIndeterminate(true);
         pDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
         pDialog.getWindow().setGravity(Gravity.CENTER);
-
         dbcust = new Databasecustomers(this);
         dbfeed = new Databasefeedback(this);
 
@@ -162,7 +161,7 @@ public class CollectionActivity extends AppCompatActivity {
             int ddd = newCalendar.get(Calendar.DAY_OF_MONTH);
             int wwww = newCalendar.get(Calendar.WEEK_OF_YEAR);
 
-            if (ddd == pref.getInt("dailycheckdaymain", 0) && wwww == pref.getInt("dailycheckmonthmain", 0) && dbcust.getContactsCount() != 0) {
+            if (ddd == pref.getInt("dailycheckdaymain", 0) && wwww == pref.getInt("dailycheckmonthmain", 0) && dbcust.getmyContactsCount() != 0) {
 
                 reterivelocal();
 
@@ -182,10 +181,9 @@ public class CollectionActivity extends AppCompatActivity {
                     editor.commit();
                     dbcust.deletetable();
                     reteriveall();
-                    reterivelocalreceipts();
                 } else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                            CollectionActivity.this);
+                            MyCustomers.this);
                     alertDialog.setTitle("Information");
                     alertDialog
                             .setMessage("You must sync first time");
@@ -208,34 +206,6 @@ public class CollectionActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        try {
-
-            Calendar newCalendar = Calendar.getInstance();
-
-            int ddd1 = newCalendar.get(Calendar.DAY_OF_MONTH);
-            int wwww1 = newCalendar.get(Calendar.WEEK_OF_YEAR);
-
-            if (ddd1 == pref.getInt("dailycheckdayfeed", 0) && wwww1 == pref.getInt("dailycheckmonthfeed", 0) && dbfeed.getContactsCount() != 0) {
-                reterivelocalfeed();
-
-            } else {
-
-                editor.putInt("dailycheckdayfeed",
-                        newCalendar.get(Calendar.DAY_OF_MONTH));
-                editor.putInt("dailycheckmonthfeed",
-                        newCalendar.get(Calendar.WEEK_OF_YEAR));
-                editor.putString("companymain",
-                        pref.getString("company", null));
-
-                editor.commit();
-                dbfeed.deletetable();
-                reterivefeedback();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         edt_search.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -251,7 +221,7 @@ public class CollectionActivity extends AppCompatActivity {
 
                     if (customer_listmain.size() > 0) {
                         list.setVisibility(View.VISIBLE);
-                        adapterlist = new CustomAdaptercustomer(CollectionActivity.this, customer_listmain);
+                        adapterlist = new CustomAdaptercustomer(MyCustomers.this, customer_listmain);
                         adapterlist.notifyDataSetChanged();
                         list.setAdapter(adapterlist);
 
@@ -295,7 +265,7 @@ public class CollectionActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Custmodel cmd = customer_listmain.get(i);
-                listclick(cmd.getCusid(), cmd.getNAME());
+                //listclick(cmd.getCusid(), cmd.getNAME());
 
             }
         });
@@ -303,10 +273,12 @@ public class CollectionActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Custmodel cmd = customer_listmain.get(position);
-                Intent i = new Intent(CollectionActivity.this, Customer_Info.class);
+                Intent i = new Intent(MyCustomers.this, Customer_Info.class);
                 i.putExtra("name", cmd.getNAME());
                 i.putExtra("mobile", cmd.getMOBILE());
                 i.putExtra("custid", cmd.getCusid());
+                i.putExtra("grpticket", cmd.getGrpticket());
+                i.putExtra("grpname", cmd.getGrpname());
                 startActivity(i);
                 return true;
             }
@@ -341,7 +313,7 @@ public class CollectionActivity extends AppCompatActivity {
             case R.id.menu_refresh:
 
                 reteriveall();
-                reterivelocalreceipts();
+//                reterivelocalreceipts();
                 return true;
 
             case R.id.menu_qrcode:
@@ -375,7 +347,6 @@ public class CollectionActivity extends AppCompatActivity {
                 url3, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("all receitpd  " + response.toString());
                 Log.d("Collection Activity", response.toString());
 
 
@@ -426,7 +397,7 @@ public class CollectionActivity extends AppCompatActivity {
                         }
                         try {
 
-                            Toast.makeText(CollectionActivity.this, "database loaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyCustomers.this, "database loaded", Toast.LENGTH_SHORT).show();
                             dbrecepit.addallreceipt(enroll_list_local);
                             container.stopShimmerAnimation();
                             container.setVisibility(View.GONE);
@@ -443,7 +414,7 @@ public class CollectionActivity extends AppCompatActivity {
                     } else {
                         hidePDialog();
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                                CollectionActivity.this);
+                                MyCustomers.this);
                         alertDialog.setTitle("Information");
                         alertDialog
                                 .setMessage("No Data from Server  locall. contact Admin");
@@ -496,7 +467,7 @@ public class CollectionActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("userid", pref.getString("userid", ""));
-                System.out.println("all receitpd userid " + pref.getString("userid", ""));
+
                 return params;
             }
 
@@ -540,16 +511,14 @@ public class CollectionActivity extends AppCompatActivity {
                             sched.setCustomer_id(jObj.getString("Customer_Id"));
                             sched.setNAME(jObj.getString("First_Name_F"));
                             sched.setMOBILE(jObj.getString("Mobile_F"));
-                            sched.setAdvanceamt(jObj.getString("Advanced_Amt"));
-                            sched.setPendingamt(jObj.getString("Pending_Amt"));
                             sched.setTotalenrlpending(jObj.getString("Total_Enrl_Pending"));
+                            System.out.println("pend " + jObj.getString("Total_Enrl_Pending"));
+                            System.out.println("paid " + jObj.getString("Total_Enrl_Paid"));
+                            System.out.println("name " + jObj.getString("First_Name_F"));
+                            System.out.println("mob " + jObj.getString("Mobile_F"));
                             sched.setEnrlpaid(jObj.getString("Total_Enrl_Paid"));
-                            sched.setLevel(jObj.getString("Level"));
-                            sched.setBonusamt(jObj.getString("Bonus_Amt"));
-                            sched.setPenaltyamt(jObj.getString("Penalty_Amt"));
-                            sched.setPendingamt(jObj.getString("Pending_Days"));
-                            sched.setPaymenttype(jObj.getString("Payment_Type"));
-                            sched.setCollect_emp(jObj.getString("Collect_Emp"));
+                            sched.setGrpname(jObj.getString("Group_Name"));
+                            sched.setGrpticket(jObj.getString("Group_Ticket_Name"));
                             customer_list.add(sched);
 
                         }
@@ -565,16 +534,16 @@ public class CollectionActivity extends AppCompatActivity {
 
 
                         try {
-                            dbcust.deletetable();
+                            dbcust.deletetablemycust();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                         try {
 
-                            dbcust.addcustomer(customer_list);
+                            dbcust.addmycustomer(customer_list);
                             customer_listmain.clear();
                             customer_listmain.addAll(customer_list);
-                            adapterlist = new CustomAdaptercustomer(CollectionActivity.this, customer_listmain);
+                            adapterlist = new CustomAdaptercustomer(MyCustomers.this, customer_listmain);
                             adapterlist.notifyDataSetChanged();
                             list.setAdapter(adapterlist);
                             list.setVisibility(View.VISIBLE);
@@ -593,10 +562,10 @@ public class CollectionActivity extends AppCompatActivity {
                         container.stopShimmerAnimation();
                         container.setVisibility(View.GONE);
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                                CollectionActivity.this);
+                                MyCustomers.this);
                         alertDialog.setTitle("Information");
                         alertDialog
-                                .setMessage("No Data from Server. contact apdi Admin");
+                                .setMessage("No Customers to show !");
 
                         alertDialog.setPositiveButton("ok",
                                 new DialogInterface.OnClickListener() {
@@ -620,6 +589,8 @@ public class CollectionActivity extends AppCompatActivity {
 
 
                 } catch (JSONException e) {
+                    container.stopShimmerAnimation();
+                    container.setVisibility(View.GONE);
                     hidePDialog();
                     e.printStackTrace();
                 }
@@ -666,9 +637,9 @@ public class CollectionActivity extends AppCompatActivity {
         System.out.println("all contacts ");
         customer_list.clear();
         customer_listmain.clear();
-        customer_list = dbcust.getAllContacts();
+        customer_list = dbcust.getmyContacts();
         customer_listmain.addAll(customer_list);
-        adapterlist = new CustomAdaptercustomer(CollectionActivity.this, customer_listmain);
+        adapterlist = new CustomAdaptercustomer(MyCustomers.this, customer_listmain);
         adapterlist.notifyDataSetChanged();
         list.setAdapter(adapterlist);
         maketotal(customer_listmain);
@@ -707,7 +678,7 @@ public class CollectionActivity extends AppCompatActivity {
         customer_listmain.clear();
         customer_list = dbcust.getAllmycontacts(pref.getString("userid", ""));
         customer_listmain.addAll(customer_list);
-        adapterlist = new CustomAdaptercustomer(CollectionActivity.this, customer_listmain);
+        adapterlist = new CustomAdaptercustomer(MyCustomers.this, customer_listmain);
         adapterlist.notifyDataSetChanged();
         list.setAdapter(adapterlist);
         maketotal(customer_listmain);
@@ -720,7 +691,7 @@ public class CollectionActivity extends AppCompatActivity {
         customer_list = dbcust.getmycontactswithoutsatndings(pref.getString("userid", ""));
         customer_listmain.addAll(customer_list);
 
-        adapterlist = new CustomAdaptercustomer(CollectionActivity.this, customer_listmain);
+        adapterlist = new CustomAdaptercustomer(MyCustomers.this, customer_listmain);
         adapterlist.notifyDataSetChanged();
         list.setAdapter(adapterlist);
         maketotal(customer_listmain);
@@ -734,7 +705,7 @@ public class CollectionActivity extends AppCompatActivity {
         customer_list = dbcust.getallcontactswithoutsatndings(pref.getString("userid", ""));
         customer_listmain.addAll(customer_list);
 
-        adapterlist = new CustomAdaptercustomer(CollectionActivity.this, customer_listmain);
+        adapterlist = new CustomAdaptercustomer(MyCustomers.this, customer_listmain);
         adapterlist.notifyDataSetChanged();
         list.setAdapter(adapterlist);
         maketotal(customer_listmain);
@@ -825,7 +796,7 @@ public class CollectionActivity extends AppCompatActivity {
                         container.setVisibility(View.GONE);
                         hidePDialog();
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                                CollectionActivity.this);
+                                MyCustomers.this);
                         alertDialog.setTitle("Information");
                         alertDialog
                                 .setMessage("No Data from Server. contact Admin");
@@ -932,7 +903,7 @@ public class CollectionActivity extends AppCompatActivity {
 
         if (customer_listmain.size() > 0) {
             list.setVisibility(View.VISIBLE);
-            adapterlist = new CustomAdaptercustomer(CollectionActivity.this, customer_listmain);
+            adapterlist = new CustomAdaptercustomer(MyCustomers.this, customer_listmain);
             adapterlist.notifyDataSetChanged();
             list.setAdapter(adapterlist);
 
@@ -947,7 +918,7 @@ public class CollectionActivity extends AppCompatActivity {
 
     public void listclick(final String cusid, final String cusname) {
 
-        final Dialog dialog = new Dialog(CollectionActivity.this);
+        final Dialog dialog = new Dialog(MyCustomers.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dialog.setContentView(R.layout.diaremark);
@@ -968,7 +939,7 @@ public class CollectionActivity extends AppCompatActivity {
         final ListView lv = (ListView) dialog.findViewById(R.id.list);
 
 
-        adapter1 = new Listadapterfeedback(CollectionActivity.this, feedlistmain);
+        adapter1 = new Listadapterfeedback(MyCustomers.this, feedlistmain);
         lv.setAdapter(adapter1);
 
         edt_remark.addTextChangedListener(new TextWatcher() {
@@ -1007,7 +978,7 @@ public class CollectionActivity extends AppCompatActivity {
 
                         if (feedlistmain.size() > 0) {
                             lv.setVisibility(View.VISIBLE);
-                            adapter1 = new Listadapterfeedback(CollectionActivity.this, feedlistmain);
+                            adapter1 = new Listadapterfeedback(MyCustomers.this, feedlistmain);
                             lv.setAdapter(adapter1);
 
                         } else {
@@ -1074,7 +1045,7 @@ public class CollectionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent irt = new Intent(CollectionActivity.this, RecepitActivity.class);
+                Intent irt = new Intent(MyCustomers.this, RecepitActivity.class);
                 irt.putExtra("cusid", cusid);
                 irt.putExtra("cusname", cusname);
                 irt.putExtra("type", "all");
@@ -1099,7 +1070,7 @@ public class CollectionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Calendar newCalendar = Calendar.getInstance();
 
-                DatePickerDialog fromDatePickerDialog = new DatePickerDialog(CollectionActivity.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog fromDatePickerDialog = new DatePickerDialog(MyCustomers.this, new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
@@ -1185,12 +1156,12 @@ public class CollectionActivity extends AppCompatActivity {
 
                     if (Success.equals("0")) {
 //                        container.stopShimmerAnimation();
-                        Toast.makeText(CollectionActivity.this, Details, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyCustomers.this, Details, Toast.LENGTH_LONG).show();
                         //  listclick(cusid);
                     } else {
 
 
-                        Toast.makeText(CollectionActivity.this, Details, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyCustomers.this, Details, Toast.LENGTH_LONG).show();
 
 
                     }
